@@ -1,0 +1,101 @@
+<div class="row" [hidden]='visible'>
+  <header class="w3-container">
+    <h3><b><i class="fa fa-users"></i> Cadastro de usuários</b></h3>
+  </header>
+  <fieldset>      
+    <form class="navbar-form navbar-left">      
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Pesquisar" 
+         (input)="filtertitleValue = $event.target.value"/>        
+      </div>              
+      <button class="btn btn-link" (click)='novo();' data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-user"></span> Novo Usuário</button>      
+    </form>
+  </fieldset>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <td>
+        Nome
+        </td>
+        <td>
+        Email
+        </td>
+        <td>
+        Menu
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of users | userFilterPipe : filtertitleValue" >
+        <td>
+          {{u.name}}
+        </td>
+        <td>
+          {{u.email}}
+        </td>
+        <td>
+        <a href="#" (click)='editar(u)' data-toggle="modal" data-target="#myModal" class="card-link">
+          <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+          Editar</a>      
+        <button class="btn btn-link" (click)='remover(u)'><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>    
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> {{modalAction}}</h4>
+
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label for="name" class="col-sm-2 control-label">Nome</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" [(ngModel)]="user.name" id='name' name='name' />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email" class="col-sm-2 control-label">Email</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" [(ngModel)]="user.email" id='email' name='email' />
+            </div>
+          </div>          
+            <div class="panel panel-success"> 
+              <div class="panel-heading">
+                <span class="glyphicon glyphicon-duplicate"></span> Roles</div>
+              <!--<div class="panel-body" *ngIf='modalState'>
+              <div class="panel-body" [hidden]='!modalState'>-->
+              <div class="panel-body">
+                <label class="checkbox-inline" > 
+                    <input type="checkbox" (change)='pushRole($event.target)' [checked]='this.user.roles.indexOf("Admin")>-1' id="inlineCheckbox1" value="Admin"> Admin
+                </label>          
+                <label class="checkbox-inline" >
+                    <input type="checkbox" id="inlineCheckbox1" value="User" (change)='pushRole($event.target)'
+                    [checked]='this.user.roles.indexOf("User")>-1'> User
+                </label>          
+                <label class="checkbox-inline" >
+                    <input type="checkbox" id="inlineCheckbox1" value="Gerente" (change)='pushRole($event.target)'
+                    [checked]='this.user.roles.indexOf("Gerente")>-1'> Gerente
+                </label>          
+              </div>              
+            </div>                              
+        </form>        
+      </div>
+      <div class="modal-footer" [hidden]='!modalState'>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+        <button  type="button" class="btn btn-primary" (click)='salvar()' data-dismiss="modal">Gravar</button>        
+      </div>
+      <div class="modal-footer" [hidden]='modalState'>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>        
+        <button  type="button" class="btn btn-primary" (click)='update(this.user)' data-dismiss="modal">Atualizar</button>
+      </div>
+    </div>
+  </div>
+</div>

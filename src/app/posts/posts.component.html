@@ -1,0 +1,13 @@
+<div class="container">  
+ <header class="w3-container" style="padding-top:22px">
+        <h5><b><i class="fa fa-users"></i> Cadastro de usuários</b></h5>
+      </header>
+  <div class="row" *ngFor="let post of posts">
+    <div class="card card-block">
+      <h4 class="card-title">{{ post.title }}</h4>
+      <p class="card-text">{{post.body}}</p>
+      <a href="#" class="card-link">Card link</a>
+      <a href="#" class="card-link">Another link</a>
+    </div>
+  </div>
+</div>
