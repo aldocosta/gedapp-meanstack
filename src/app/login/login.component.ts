@@ -2,13 +2,12 @@ import { Component, OnChanges, NgZone, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { LogarUsuarioService } from '../services/logar/logar-usuario.service';
 import { User } from '../Models/user'; 
-import { MySharedService } from '../services/shared/my-shared.service';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
+  templateUrl:'./login.component.html',
   styleUrls: ['./login.component.css'],
-  providers:[LogarUsuarioService,MySharedService]
+  providers:[LogarUsuarioService]
 })
 export class LoginComponent implements OnChanges {
   user: User;
@@ -16,8 +15,7 @@ export class LoginComponent implements OnChanges {
     
   constructor(private ls:LogarUsuarioService,              
               private router: Router,
-              private zone:NgZone,
-              private mySharedService:MySharedService) {
+              private zone:NgZone) {
     this.user = new User();    
    }
 
@@ -30,16 +28,12 @@ export class LoginComponent implements OnChanges {
         if(ret.falha!=undefined){
           this.fail = ret.falha;
         }   
-        else{                
-          window.localStorage.setItem('token', ret.token);                    
+        else{          
+          window.localStorage.setItem('token', ret.token);
+          window.localStorage.setItem('usuario',JSON.stringify(ret));                    
           this.router.navigate(['/users']);          
-          document.getElementById('side-menu').style.display='block';
         }
       });      
     });
-  }
-
-  teste(){    
-    this.mySharedService.emitNavChangeEvent(999);
-  }
+  } 
 }

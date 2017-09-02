@@ -5,8 +5,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes  } from '@angular/router';
   
 import { PostsService } from './posts.service';
-import {MySharedService } from './services/shared/my-shared.service';
-//import { LogarUsuarioService } from './services/logar/logar-usuario.service';
+import { MySharedService } from './services/shared/my-shared.service';
 
 import { AppComponent } from './app.component';
 import { PostsComponent } from './posts/posts.component';
@@ -17,18 +16,6 @@ import { UserFilterPipePipe } from './pipes/user-filter-pipe.pipe';
 
 import { LoginComponent } from './login/login.component';
 import { GedMenuComponent } from './ged-menu/ged-menu.component';
-
-const ROUTES = [
-  {
-    path: '',
-    redirectTo: 'posts',
-    pathMatch: 'full'
-  },
-  {
-    path: 'posts',
-    component: PostsComponent
-  }  
-];
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent }  ,

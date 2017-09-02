@@ -9,18 +9,8 @@ const Strategy = require('passport-http-bearer').Strategy;
 var User = require('../models/user');
 var Token = require('../models/token');
 
-var corsOptions = {
-  origin: 'http://localhost:4200',
-  optionsSuccessStatus: 200,
-  preflightContinue: false,
-  allowedHeaders:['Content-Type', 'Authorization']
-}
 
 router.use(cors());
-//router.options('/user/', cors());
-// router.get('/user/',cors(),function(req,res,next){	
-// 	next();
-// });
  
 /*estrategia*/
 passport.use(new Strategy(
@@ -34,14 +24,6 @@ passport.use(new Strategy(
 		return cb(null, user);    
 	});	
 }));
-
-
-// router.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");  
-//   res.header("Access-Control-Allow-Headers", "*, X-Requested-With, Content-Type, Accept, Authorization, Bearer");  
-//   next();
-// });
 
 router.use('/user',
 	passport.authenticate('bearer', { session: false }),
@@ -76,7 +58,8 @@ router.post('/logar',function(req,res,next){
         if(!user) {
         	retorno.falha = 'No user found';        	
         	return res.json(retorno);
-        }
+		}
+		
         if(!user.validPassword(body.password)){
 			retorno.falha ='Usuario ou senha invalidos';           
 			return res.json(retorno);
@@ -92,29 +75,34 @@ router.post('/logar',function(req,res,next){
 			/*
 				Toke expira depois de 10 minutos
 			*/
-			let dnow = Date.now() +((60*1000)*10);        	
+			let dnow = Date.now() + ((60 * 1000) * 10);        	
 			
-			let _roles = '';
-			user.roles.forEach(function(v){
-				_roles+='_'+bcrypt.hashSync(v,bcrypt.genSaltSync(5),null);				
-			});
-			
-        	let utoken = new Token({
-        		token: user.password+'__'+user.id+'_',
+        	let utoken = new Token({				
+        		token: user.password+'__'+user.id+'_'+dnow,
         		userId: user.id,
-        		expira: dnow
+				expira: dnow,
+				user:{
+					nome:user.name,
+					email:user.email,
+					roles:user.roles
+				} 				
         	}); 
 
         	utoken.save().then(function(d){
 	        	console.log('Token salvo: ');
 	        });
 
-	        var token ={
-        		token: utoken.token
-        	} 
-        }              
-        
-        return res.json(token);        
+	         var token = {
+				 token: utoken.token,
+				 user:{
+					 nome:user.name,
+					 email:user.email,
+					 roles:user.roles
+				 }
+			 } 				 
+			
+			return res.json(token);    
+        }                        
     });	
 });
 

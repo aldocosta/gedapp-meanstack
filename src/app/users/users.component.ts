@@ -1,13 +1,17 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
+
+import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
 
 import { PostsService } from '../posts.service';
+import { LogarUsuarioService } from '../services/logar/logar-usuario.service';
 import { User } from '../Models/user';
 
 @Component({
   selector: 'app-users',
+  providers: [LogarUsuarioService],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']  
 })
@@ -18,18 +22,26 @@ export class UsersComponent implements OnInit {
   filtertitleValue:string;
   modalState:boolean;
   visible:boolean;
+  _id:string;
+  usuario :{};
 
   constructor(private postsService: PostsService,
               private router: Router,
-              private zone:NgZone) {
+              private route: ActivatedRoute,
+              private zone: NgZone,
+              private ls: LogarUsuarioService) {
     this.user = new User();     
     this.user.roles=[];
     this.modalAction = "Editar";    
+    this._id='UsersComponent';    
    }
 
   ngOnInit() {
     this.filtertitleValue = '';  
-    this.visible = true;  
+    this.visible = true;
+    
+    let u = this.ls.pegarUsuarioLogadoViaLocalStorage();
+
     this.postsService.getAllUsers()
     .subscribe(ret => {
       this.zone.run(()=>{
