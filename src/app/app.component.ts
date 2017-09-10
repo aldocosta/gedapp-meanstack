@@ -11,6 +11,7 @@ import {LogarUsuarioService } from './services/logar/logar-usuario.service';
 })
 export class AppComponent {
   menustate:boolean;
+  usuario:any;
   // usuario:{};
   constructor(
     private router:Router,
@@ -21,6 +22,9 @@ export class AppComponent {
   onActivate(component){
     //inferindo no estado do menu
     let usuario = this.ls.pegarUsuarioLogadoViaLocalStorage();
+    if(usuario)
+      this.usuario = usuario.user;
+    
     this.menustate = (usuario != undefined) && (usuario != null);    
   }
 }

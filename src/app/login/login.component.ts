@@ -16,7 +16,12 @@ export class LoginComponent implements OnChanges {
   constructor(private ls:LogarUsuarioService,              
               private router: Router,
               private zone:NgZone) {
-    this.user = new User();    
+    this.user = new User();
+    let usuario = this.ls.pegarUsuarioLogadoViaLocalStorage();
+    if(usuario){
+      this.router.navigate(['/users']);
+    }
+          
    }
 
   ngOnChanges() {

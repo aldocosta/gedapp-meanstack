@@ -5,7 +5,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes  } from '@angular/router';
   
 import { PostsService } from './posts.service';
-import { MySharedService } from './services/shared/my-shared.service';
 
 import { AppComponent } from './app.component';
 import { PostsComponent } from './posts/posts.component';
@@ -16,11 +15,16 @@ import { UserFilterPipePipe } from './pipes/user-filter-pipe.pipe';
 
 import { LoginComponent } from './login/login.component';
 import { GedMenuComponent } from './ged-menu/ged-menu.component';
+import { GedDepartamentoComponent } from './componentes/ged-departamento/ged-departamento.component';
+import { FilterGenericPipe } from './pipes/filter-generic.pipe';
+import { GedGridComponent } from './componentes/uc/ged-grid/ged-grid.component';
+import { MyNewDirectiveDirective } from './componentes/uc/my-new-directive.directive';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent }  ,
-  { path: 'extra', component: ExtrasComponent }  ,
-  { path: 'users', component: UsersComponent }
+  //{ path: 'extra', component: ExtrasComponent }  ,
+  { path: 'users', component: UsersComponent },
+  { path: 'depto',component:GedDepartamentoComponent}
 ];
 
 
@@ -32,7 +36,7 @@ const appRoutes: Routes = [
     UsersComponent,
     UserFilterPipePipe,
     LoginComponent,    
-    GedMenuComponent 
+    GedMenuComponent, GedDepartamentoComponent, FilterGenericPipe, GedGridComponent, MyNewDirectiveDirective 
   ],
   imports: [
     BrowserModule,    
@@ -41,8 +45,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes)    
   ],
   providers: [
-              PostsService,
-              MySharedService
+              PostsService
             ],
   bootstrap: [AppComponent]
 })

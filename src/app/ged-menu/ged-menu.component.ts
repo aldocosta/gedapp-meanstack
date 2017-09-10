@@ -13,6 +13,7 @@ import {MySharedService } from '../services/shared/my-shared.service';
 })
 export class GedMenuComponent implements OnInit {
   @Input() state;
+  @Input() user;
 
   constructor(private ls:LogarUsuarioService,
               private router: Router,
@@ -20,7 +21,7 @@ export class GedMenuComponent implements OnInit {
   }
 
   ngOnInit() {    
-    this.state = false;
+    this.state = false;    
   }
 
   logOut(){

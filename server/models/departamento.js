@@ -4,7 +4,10 @@ var mongoose = restful.mongoose;
 
 var deptoSchema = new mongoose.Schema({
     name:String,
-    criacao:Date    
+    descricao:String,
+    criacao:Date,
+    pai:{ type: Object, ref: 'Departamentos ' },
+    owner:{ type: Object, ref: 'Users' }    
 });
-//
+
 module.exports = restful.model('Departamentos',deptoSchema);

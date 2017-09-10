@@ -50,6 +50,7 @@ export class UsersComponent implements OnInit {
       });
       
     },err=>{
+      this.ls.logoff();
       this.router.navigate(['/']);      
     });    
   }

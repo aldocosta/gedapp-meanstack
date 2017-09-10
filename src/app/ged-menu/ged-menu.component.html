@@ -40,8 +40,8 @@
           </ul>
       </li>
       <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-              <i class="fa fa-user fa-fw"></i> secondtruth <b class="caret"></b>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">                            
+              <i class="fa fa-user fa-fw"></i> {{user != null ? user.nome: ""}} <b class="caret"></b>              
           </a>
           <ul class="dropdown-menu dropdown-user">
               <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
@@ -56,9 +56,9 @@
   </ul>
 
   <!-- Sidebar -->
-  <div class="navbar-default sidebar" role="navigation">
+  <div class="navbar-default sidebar" role="navigation" [hidden]='!state'>
       <div class="sidebar-nav navbar-collapse">
-          <ul class="nav" [hidden]='!state' >
+          <ul class="nav"  >
               <li class="sidebar-search">
                   <div class="input-group custom-search-form">
                       <input type="text" class="form-control" placeholder="Search...">
@@ -82,7 +82,7 @@
                           <a routerLink="/users" class="active"><i class="fa fa-users fa-fw"></i> Usuários</a>
                       </li>
                       <li>                                
-                          <a routerLink="/" class="active"><i class="fa fa-users fa-fw"></i> Departamentos</a>
+                          <a routerLink="/depto" class="active"><i class="fa fa-users fa-fw"></i> Departamentos</a>
                       </li>
                       <!--<li>
                           <a href="#">Third Level <span class="fa arrow"></span></a>
