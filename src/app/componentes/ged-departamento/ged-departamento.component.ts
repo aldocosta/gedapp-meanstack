@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { GedDeptoService } from '../../services/mock/depto-mock.service';
 import { GedDepartamento } from '../../Models/ged-departamento';
+import {LogarUsuarioService } from '../../services/logar/logar-usuario.service';
+import {User } from '../../Models/User';
 
 @Component({
   selector: 'app-ged-departamento',
@@ -10,15 +12,22 @@ import { GedDepartamento } from '../../Models/ged-departamento';
   providers:[GedDeptoService]
 })
 export class GedDepartamentoComponent implements OnInit {
-  geddpto : GedDepartamento[];
-  filtertitleValue:string;
-  depto:GedDepartamento;
-  constructor(private _deptoService: GedDeptoService) { }
+  geddpto: GedDepartamento[];
+  filtertitleValue: string;
+  depto: GedDepartamento;
+  userlogged: User;
+
+  constructor(private _deptoService: GedDeptoService,
+              private _lus: LogarUsuarioService) { }
 
   ngOnInit() {
     this.filtertitleValue = '';
-    this.depto = new GedDepartamento();
+    this.depto = new GedDepartamento();    
+    this.userlogged = this._lus.pegarUsuarioLogadoViaLocalStorage().user;
     this.geddpto = this._deptoService.retornardepartamentos();
+
+    this.depto.Owner = this.userlogged.nome;
+    this.depto.id = this.userlogged.id;
   }
 
   editar(depto:any){

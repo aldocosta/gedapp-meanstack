@@ -9,7 +9,8 @@ export class GedGridComponent implements OnInit {
   @Input() columns : any[];
   @Input() objProps : any[];
   @Input() datasource : any;
-  @Input() dateMask:any;  
+  @Input() dateMask: any;   
+  
   @Output() editar: EventEmitter<any> = new EventEmitter();
   @Output() deletar: EventEmitter<any> = new EventEmitter();
 

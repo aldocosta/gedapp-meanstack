@@ -26,8 +26,6 @@ export class GedMenuComponent implements OnInit {
 
   logOut(){
     this.state = false;
-    this.ls.logoff();
-    // window.localStorage.removeItem('token');        
-    // this.router.navigate(['/']);
+    this.ls.logoff();    
   }
 }

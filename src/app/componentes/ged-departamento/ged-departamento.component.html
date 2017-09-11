@@ -13,11 +13,12 @@
         </form>
       </fieldset>
       <app-ged-grid 
-        [columns]='["Depto","Descrição","Criação","Pai","Owner","",""]'
+        [columns]='["Depto","Descrição","Criação","Owner","",""]'
         [objProps]="['nome','Descricao','Criacao','Owner','Pai']"
-        [dateMask]="['Criacao']" (editar)='editar($event)'
+        [dateMask]="['Criacao']"         
+        (editar)='editar($event)'
         (deletar)='deletarDepto($event)'
-        [datasource]="geddpto">
+        [datasource]="geddpto | filterGeneric : [filtertitleValue,'nome']">
       </app-ged-grid>
 </div>
 
@@ -45,6 +46,18 @@
               <div class="col-sm-10">
                 <input type="text" class="form-control" [(ngModel)]="depto.Descricao" id='desc' name='desc' />
               </div>
+            </div>                                      
+            <div class="form-group">
+                <label for="criacao" class="col-sm-2 control-label">Criação</label>
+                <div class="col-sm-10">
+                  <input type="date" class="form-control" [(ngModel)]="depto.Criacao" id='criacao' name='criacao' />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="owner" class="col-sm-2 control-label">Owner</label>
+                <div class="col-sm-10">
+                  <input type="text" readonly class="form-control" [(ngModel)]="depto.Owner" id='owner' name='owner' />
+                </div>
             </div>                                      
           </form>        
         </div>

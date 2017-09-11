@@ -18,7 +18,6 @@ import { GedMenuComponent } from './ged-menu/ged-menu.component';
 import { GedDepartamentoComponent } from './componentes/ged-departamento/ged-departamento.component';
 import { FilterGenericPipe } from './pipes/filter-generic.pipe';
 import { GedGridComponent } from './componentes/uc/ged-grid/ged-grid.component';
-import { MyNewDirectiveDirective } from './componentes/uc/my-new-directive.directive';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent }  ,
@@ -36,7 +35,7 @@ const appRoutes: Routes = [
     UsersComponent,
     UserFilterPipePipe,
     LoginComponent,    
-    GedMenuComponent, GedDepartamentoComponent, FilterGenericPipe, GedGridComponent, MyNewDirectiveDirective 
+    GedMenuComponent, GedDepartamentoComponent, FilterGenericPipe, GedGridComponent 
   ],
   imports: [
     BrowserModule,    

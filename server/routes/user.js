@@ -96,6 +96,7 @@ router.post('/logar',function(req,res,next){
 				 token: utoken.token,
 				 user:{
 					 nome:user.name,
+					 id:user.id,
 					 email:user.email,
 					 roles:user.roles
 				 }

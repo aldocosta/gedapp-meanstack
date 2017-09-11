@@ -16,7 +16,7 @@ import { User } from '../Models/user';
   styleUrls: ['./users.component.css']  
 })
 export class UsersComponent implements OnInit {
-  users: any = [];   
+  users = [];   
   user: User;
   modalAction:string;
   filtertitleValue:string;
@@ -86,8 +86,12 @@ export class UsersComponent implements OnInit {
  remover(user){
    if(confirm('Deseja remover este usuário?')){
      this.postsService.deleteUser(user).subscribe(users => {
-        let index = this.users.indexOf(user);
-        this.users.splice(index,1);
+        //this.zone.run(()=>{
+           //this.users = users;
+          // this.visible = false;
+          let index = this.users.indexOf(user);
+          this.users.splice(index,1);
+        //});        
       });
    }
  }

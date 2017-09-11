@@ -11,7 +11,17 @@
       <button class="btn btn-link" (click)='novo();' data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-user"></span> Novo Usuário</button>      
     </form>
   </fieldset>
-  <table class="table table-striped">
+
+  <app-ged-grid 
+    [columns]='["Nome","Email","",""]'
+    [objProps]="['name','email']"
+    [dateMask]="['']" 
+    (editar)='editar($event)'
+    (deletar)='remover($event)'   
+    [datasource]="users | filterGeneric : [filtertitleValue,'name']">
+  </app-ged-grid>
+
+  <!--<table class="table table-striped">
     <thead>
       <tr>
         <td>
@@ -25,8 +35,8 @@
         </td>
       </tr>
     </thead>
-    <tbody>
-      <tr *ngFor="let u of users | userFilterPipe : filtertitleValue" >
+    <tbody>      
+          <tr *ngFor="let u of users | filterGeneric : [filtertitleValue,'name']" >
         <td>
           {{u.name}}
         </td>
@@ -41,7 +51,7 @@
         </td>
       </tr>
     </tbody>
-  </table>
+  </table>-->
 </div>
 
 <!-- Modal -->

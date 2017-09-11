@@ -1,5 +1,6 @@
 export class User {
-    name:String
-    email:String
-    roles:string[]
+    id:String;
+    nome:String;
+    email:String;
+    roles:string[];
 }
