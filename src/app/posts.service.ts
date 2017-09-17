@@ -1,20 +1,29 @@
-import { Injectable } from '@angular/core';
+import { Injectable ,OnInit} from '@angular/core';
 import { Http,Headers,RequestOptions,RequestMethod } from '@angular/http';
-import { User } from '././Models/user';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Rx';
 
-@Injectable()
-export class PostsService {
+import { User } from '././Models/user';
+import { AppCommomService } from './services/app-commom.service';
 
-  constructor(private http: Http) { }
+@Injectable()
+export class PostsService implements OnInit {
+   urlApi : String;
+
+  constructor(private http: Http,
+              private commomService : AppCommomService) { 
+                this.urlApi = this.commomService.getUrlApi();    
+              }
+
+  ngOnInit() {
+    
+  }
 
   // Get all posts from the API
   getAllPosts() {
-    return this.http.get('http://localhost:3000/api/posts')
-    //return this.http.get(this.config.getpostapiUrl()+ 'posts')
+    return this.http.get(this.urlApi+'/api/posts')
        .map(res => res.json());       
   }
 
@@ -28,15 +37,15 @@ export class PostsService {
     let options = new RequestOptions({ headers: headers });
 
     var erro = {status:'',statusText:''};
-    return this.http.get('http://localhost:3000/user',options)
+    
+    return this.http.get(this.urlApi + '/user',options)
     .map(res => res.json()).    
     catch(err=> {
        erro.status = err.status;
        erro.statusText = err.statusText;
       return Observable.throw(
         new Error(JSON.stringify(erro))          
-      );
-      //return err.json
+      );      
     });    
   }
 
@@ -52,8 +61,7 @@ export class PostsService {
     headers.append("Authorization","Bearer "+ window.localStorage.getItem("token"));
     let options = new RequestOptions({ headers: headers });
 
-
-    return this.http.post('http://localhost:3000/user/',JSON.stringify(body),options)
+    return this.http.post(this.urlApi + '/user/',JSON.stringify(body),options)
     .map(res => res.json());
   }
 
@@ -67,7 +75,7 @@ export class PostsService {
        method: RequestMethod.Delete
      }); 
    
-   let url ='http://localhost:3000/user/'+user._id;
+   let url = this.urlApi+  '/user/'+user._id;
 
    return this.http.delete(url,options).map(res => res.json());   
   }
@@ -88,12 +96,12 @@ export class PostsService {
          headers: headers         
        });     
      
-     let url ='http://localhost:3000/user/'+user._id;
+     let url = this.urlApi + '/user/'+user._id;
 
      return this.http.put(url,body,options).map(res => res.json());   
   }
 
-  retornarHeader():RequestOptions{
+  retornarHeader() : RequestOptions{
     let authToken = window.localStorage.getItem('token');    
     let headers = new Headers({ 'Authorization': 'Bearer ' + authToken });
     

@@ -11,8 +11,8 @@ export class GedGridComponent implements OnInit {
   @Input() datasource : any;
   @Input() dateMask: any;   
   
-  @Output() editar: EventEmitter<any> = new EventEmitter();
-  @Output() deletar: EventEmitter<any> = new EventEmitter();
+  @Output() editar: EventEmitter<any> = new EventEmitter();  
+  @Output() remover: EventEmitter<any> = new EventEmitter();  
 
   constructor() { }
 
@@ -24,7 +24,7 @@ export class GedGridComponent implements OnInit {
   }
 
   deletarLinha(entidade):void{
-    this.deletar.emit(entidade);
+    this.remover.emit(entidade);
   }
 
 }

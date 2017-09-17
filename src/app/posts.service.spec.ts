@@ -9,8 +9,9 @@ describe('PostsService', () => {
       providers: [PostsService]
     });
   });
-
+/*
   it('should be created', inject([PostsService], (service: PostsService) => {
     expect(service).toBeTruthy();
   }));
+  */
 });

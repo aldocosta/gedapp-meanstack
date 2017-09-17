@@ -18,6 +18,7 @@ import { GedMenuComponent } from './ged-menu/ged-menu.component';
 import { GedDepartamentoComponent } from './componentes/ged-departamento/ged-departamento.component';
 import { FilterGenericPipe } from './pipes/filter-generic.pipe';
 import { GedGridComponent } from './componentes/uc/ged-grid/ged-grid.component';
+import { AppCommomService } from './services/app-commom.service';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent }  ,
@@ -44,7 +45,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes)    
   ],
   providers: [
-              PostsService
+              PostsService,
+              AppCommomService
             ],
   bootstrap: [AppComponent]
 })

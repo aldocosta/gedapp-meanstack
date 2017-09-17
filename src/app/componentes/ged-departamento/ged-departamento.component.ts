@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 
-import { GedDeptoService } from '../../services/mock/depto-mock.service';
+import { GedDeptoService } from '../../services/deptos/ged-depto.service';
 import { GedDepartamento } from '../../Models/ged-departamento';
 import {LogarUsuarioService } from '../../services/logar/logar-usuario.service';
 import {User } from '../../Models/User';
+
+// import 'rxjs/add/operator/catch';
+// import 'rxjs/add/operator/map';
+// import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-ged-departamento',
@@ -12,21 +16,30 @@ import {User } from '../../Models/User';
   providers:[GedDeptoService]
 })
 export class GedDepartamentoComponent implements OnInit {
-  geddpto: GedDepartamento[];
+  geddpto: any[];
   filtertitleValue: string;
   depto: GedDepartamento;
   userlogged: User;
 
   constructor(private _deptoService: GedDeptoService,
-              private _lus: LogarUsuarioService) { }
+              private _lus: LogarUsuarioService,
+              private zone: NgZone) { }
 
   ngOnInit() {
+
+    this._deptoService.retornardepartamentos().subscribe(ret =>{
+      let obj : any;
+      ret.forEach(element => {
+        element.owner = element.theOwner[0].name;
+        element.ownerId = element.theOwner[0].id;
+        delete element.theOwner;        
+      });
+      this.geddpto = ret;      
+    });
     this.filtertitleValue = '';
     this.depto = new GedDepartamento();    
     this.userlogged = this._lus.pegarUsuarioLogadoViaLocalStorage().user;
-    this.geddpto = this._deptoService.retornardepartamentos();
-
-    this.depto.Owner = this.userlogged.nome;
+    this.depto.owner = this.userlogged.nome;
     this.depto.id = this.userlogged.id;
   }
 

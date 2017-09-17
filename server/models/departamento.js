@@ -5,8 +5,7 @@ var mongoose = restful.mongoose;
 var deptoSchema = new mongoose.Schema({
     name:String,
     descricao:String,
-    criacao:Date,
-    pai:{ type: Object, ref: 'Departamentos ' },
+    criacao: { type: Date, default: Date.now },
     owner:{ type: Object, ref: 'Users' }    
 });
 

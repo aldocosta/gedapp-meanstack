@@ -17,7 +17,7 @@
     [objProps]="['name','email']"
     [dateMask]="['']" 
     (editar)='editar($event)'
-    (deletar)='remover($event)'   
+    (remover)='remover($event)'   
     [datasource]="users | filterGeneric : [filtertitleValue,'name']">
   </app-ged-grid>
 

@@ -1,5 +1,5 @@
 <div id="wrapper">
-    <!-- Navigation -->
+    <!-- componente de menu -->
     <app-ged-menu id='menu' [state]='menustate' [user]='usuario'></app-ged-menu>    
 
     <!-- Page Content -->
@@ -7,8 +7,8 @@
         <div class="container-fluid">            
             <br/>
             <br/>
+            <!-- tag que renderiza os componentes fazendo SPA-->
             <router-outlet (activate)='onActivate($event)' ></router-outlet>            
         </div>
     </div>
-
 </div>
