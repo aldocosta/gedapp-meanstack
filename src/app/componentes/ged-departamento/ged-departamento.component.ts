@@ -3,7 +3,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { GedDeptoService } from '../../services/deptos/ged-depto.service';
 import { GedDepartamento } from '../../Models/ged-departamento';
 import {LogarUsuarioService } from '../../services/logar/logar-usuario.service';
-import {User } from '../../Models/User';
+import {User } from '../../Models/user';
 
 // import 'rxjs/add/operator/catch';
 // import 'rxjs/add/operator/map';

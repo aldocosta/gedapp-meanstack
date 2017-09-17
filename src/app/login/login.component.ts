@@ -28,7 +28,11 @@ export class LoginComponent implements OnChanges {
   }
 
   logar(){ 
-    this.ls.logar(this.user).catch(err=> err.json()).subscribe(ret =>{      
+    this.ls.logar(this.user).catch(err=> {
+        let i=0;
+         return err.json();
+      }
+    ).subscribe(ret =>{      
       this.zone.run(()=>{
         if(ret.falha!=undefined){
           this.fail = ret.falha;

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { AppCommomService } from '../../services/app-commom.service';
 
-import {GedDepartamento} from '../../models/ged-departamento';
+import {GedDepartamento} from '../../Models/ged-departamento';
 
 @Injectable()
 export class GedDeptoService {
