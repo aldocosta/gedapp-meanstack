@@ -2,7 +2,7 @@ export class GedDepartamento {
     id:String;
     name:String;
     descricao:String;
-    criacao:Date;    
+    criacao:Date;
     owner:String;
-    ownerId:String;
+    ownerId:Object;
 }

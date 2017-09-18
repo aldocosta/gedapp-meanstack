@@ -23,7 +23,9 @@ export class GedDepartamentoComponent implements OnInit {
 
   constructor(private _deptoService: GedDeptoService,
               private _lus: LogarUsuarioService,
-              private zone: NgZone) { }
+              private zone: NgZone) {
+       this.depto = new GedDepartamento();
+  }
 
   ngOnInit() {
 
@@ -32,34 +34,37 @@ export class GedDepartamentoComponent implements OnInit {
       ret.forEach(element => {
         element.owner = element.theOwner[0].name;
         element.ownerId = element.theOwner[0].id;
-        delete element.theOwner;        
+        delete element.theOwner;
       });
-      this.geddpto = ret;      
+      this.geddpto = ret;
     });
     this.filtertitleValue = '';
-    this.depto = new GedDepartamento();    
+    this.depto = new GedDepartamento();
     this.userlogged = this._lus.pegarUsuarioLogadoViaLocalStorage().user;
     this.depto.owner = this.userlogged.nome;
-    this.depto.id = this.userlogged.id;
+    this.depto.ownerId = this.userlogged.id;
   }
 
   editar(depto:any){
-    this.depto = depto;    
+    this.depto = depto;
+    console.log(depto);
   }
 
   salvarEditar(){
-    this._deptoService.editarDepartamento(this.depto);
+    //this._deptoService.editarDepartamento(this.depto);
   }
 
   deletarDepto(depto:any){
     let i = this.geddpto.indexOf(depto);
     this.geddpto.splice(i,1);
-    //this._deptoService.deletarDepartamento(depto);    
+    //this._deptoService.deletarDepartamento(depto);
     //this.geddpto = this._deptoService.retornardepartamentos();
   }
 
-  salvarNovo():void{    
-    this.geddpto.push(this.depto);
+  salvarNovo():void{
+    this._deptoService.salvarDepartamento(this.depto).subscribe(depto => {
+      this.geddpto.push(depto);
+    });
   }
 
 }

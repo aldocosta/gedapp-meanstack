@@ -13,45 +13,49 @@ export class GedDeptoService {
   urlApi : String;
 
   constructor(private http: Http,
-              private commomService : AppCommomService) { 
-                this.urlApi = this.commomService.getUrlApi();                    
+              private commomService : AppCommomService) {
+                this.urlApi = this.commomService.getUrlApi();
               }
 
-  retornardepartamentos(){    
+  retornardepartamentos(){
     return  this.http.get(this.urlApi+'/depto_owners')
     .map(res => res.json());
   }
 
-  editarDepartamento(depto: GedDepartamento){
-    let body = JSON.stringify({
-      
+  salvarDepartamento(depto: GedDepartamento){
+    let body =  {
+        name: depto.name,
+        criacao: depto.criacao,
+        owner:  depto.ownerId,
+        descricao:depto.descricao
+    };
+
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append("Authorization","Bearer "+ window.localStorage.getItem("token"));
+
+    let options = new RequestOptions(
+    {
+       headers: headers
     });
-    // this.g.forEach(element => {
-    //   if(element.id==depto.id){
-    //     element = depto;
-    //   }
-    // });
+
+    return this.http.post(this.urlApi + '/depto/',JSON.stringify(body),options)
+    .map(res => res.json());
   }
 
 //   updateUser(user){
 //     let headers = new Headers({ 'Content-Type': 'application/json' });
 //     headers.append("Authorization","Bearer "+ window.localStorage.getItem("token"));
 
-//     let body = JSON.stringify({
-//       "name" : user.name,
-//       "email" : user.email,
-//       "password":user.password,
-//       "roles":user.roles
-//     });
+
 
 //     let options = new RequestOptions(
 //       {
-//         headers: headers         
-//       });     
-    
+//         headers: headers
+//       });
+
 //     let url = this.urlApi + '/user/'+user._id;
 
-//     return this.http.put(url,body,options).map(res => res.json());   
+//     return this.http.put(url,body,options).map(res => res.json());
 //  }
 
 
