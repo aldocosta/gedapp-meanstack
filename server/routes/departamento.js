@@ -3,40 +3,64 @@ const router = express.Router();
 const cors = require('cors');
 const Depto = require('../models/departamento');
 
+var User = require('../models/user');
+var Token = require('../models/token');
+
+const passport = require('passport');
+const Strategy = require('passport-http-bearer').Strategy;
 
 router.use(cors());
 
-router.get('/depto_owners',(req,res,next)=>{
-    Depto.aggregate([{
-        $lookup:{
-                from:"users",
-                localField:"owner",
-                foreignField:"_id",
-                as :"theOwner"
-            }
-    }
-    ,{
-        $project:
-            {
-                name:1,descricao:1,criacao:1,result:1,"theOwner":{name:1,email:1}
-            }
+/*estrategia*/
+passport.use(new Strategy(
+    function(token, cb) {	
+      Token.findOne({'token':token},function(err,user){
+          if (err) { return cb(err); }
+          if (!user) { return cb(null, false); }
+          if(user.expira <= Date.now()) {
+              return cb(null,false);
+          }
+          return cb(null, user);    
+      });	
+  }));
+
+router.get('/depto_owners',
+    passport.authenticate('bearer', { session: false }),
+    (req,res,next)=>{
+        Depto.aggregate([{
+            $lookup:{
+                    from:"users",
+                    localField:"owner",
+                    foreignField:"_id",
+                    as :"owner"
+                }
         }
-    ]).then((data)=>{
-        res.json(data);
-    });
+        ,{
+            $project:
+                {
+                    name:1,descricao:1,criacao:1,result:1,"owner":{name:1,email:1}
+                }
+            }
+        ]).then((data)=>{
+            res.json(data);
+        });
 });
 
-router.post('/depto',function(req,res,next){
-    var d = new Depto();
-    d.name = req.body.name;
-    d.criacao = req.body.criacao,
-    d.owner = req.body.ownerId,
-    d.descricao = req.body.descricao
+router.post('/depto',
+    passport.authenticate('bearer', { session: false }),
+    function(req,res,next){
+        let mongoose = require('mongoose');
+        var d = new Depto();
+        d.name = req.body.name;
+        d.criacao = req.body.criacao,
+        d.owner = mongoose.Types.ObjectId(req.body.owner),
+        d.descricao = req.body.descricao
 
-    d.save().then(function(_d){
-        rconsole.log(_d);
-    });
-
+        d.save().then(function(_d){
+            res.json(_d);        
+        }).catch((err)=>{
+            res.json(err);        
+        });
 });
 
 Depto.methods(['get','put','delete']);

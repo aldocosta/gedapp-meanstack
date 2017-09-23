@@ -18,7 +18,15 @@ export class GedDeptoService {
               }
 
   retornardepartamentos(){
-    return  this.http.get(this.urlApi+'/depto_owners')
+    let authToken = window.localStorage.getItem('token');    
+    let headers = new Headers({ 'Authorization': 'Bearer ' + authToken });
+    
+    headers.append('Content-Type', 'Authorization');
+    
+    let options = new RequestOptions({ headers: headers });
+
+
+    return  this.http.get(this.urlApi+'/depto_owners',options)
     .map(res => res.json());
   }
 
@@ -42,27 +50,35 @@ export class GedDeptoService {
     .map(res => res.json());
   }
 
-//   updateUser(user){
-//     let headers = new Headers({ 'Content-Type': 'application/json' });
-//     headers.append("Authorization","Bearer "+ window.localStorage.getItem("token"));
+  updateDepto(depto: any){
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append("Authorization","Bearer "+ window.localStorage.getItem("token"));
 
+    let body = JSON.stringify({
+      "name": depto.name,
+      "descricao" :depto.descricao
+    });
 
+    let options = new RequestOptions(
+      {
+        headers: headers
+      });
 
-//     let options = new RequestOptions(
-//       {
-//         headers: headers
-//       });
+    let url = this.urlApi + '/depto/'+depto._id;
 
-//     let url = this.urlApi + '/user/'+user._id;
+    return this.http.put(url,body,options).map(res => res.json());
+ }
 
-//     return this.http.put(url,body,options).map(res => res.json());
-//  }
-
-
-
-
-  deletarDepartamento(depto:GedDepartamento):void{
-    // let i = this.g.indexOf(depto);
-    // this.g.slice(i,1);
+  deletarDepartamento(depto:any){     
+    let headers = new Headers({ 'Content-Type': 'application/json;' });
+    headers.append("Authorization","Bearer "+ window.localStorage.getItem("token"));
+    let options = new RequestOptions(
+      { 
+        headers: headers,
+        method: RequestMethod.Delete
+      }); 
+    
+    let url = this.urlApi+  '/depto/'+depto._id;
+    return this.http.delete(url,options).map(res => res.json());   
   }
 }

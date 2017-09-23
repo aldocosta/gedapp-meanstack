@@ -1,23 +1,24 @@
 <div class="row" >
     <header class="w3-container">
       <h3><b><i class="fa fa-suitcase" aria-hidden="true"></i> Cadastro de Departamentos</b></h3>
-    </header>
+    </header>    
     <fieldset>
         <form class="navbar-form navbar-left">
           <div class="form-group">
             <input type="text" class="form-control" placeholder="Pesquisar"
              (input)="filtertitleValue = $event.target.value"/>
           </div>
-          <button class="btn btn-link"  data-toggle="modal"
+          <button class="btn btn-link"  data-toggle="modal" (click)='novo();'
           data-target="#myModal"><i class="fa fa-suitcase" aria-hidden="true"></i> Novo Depto</button>
+
         </form>
       </fieldset>
       <app-ged-grid
         [columns]='["Depto","Descrição","Criação","Owner","",""]'
         [objProps]="['name','descricao','criacao','owner']"
         [dateMask]="['Criacao']"
-        (editar)='editar($event)'
-        (deletar)='deletarDepto($event)'
+        (selecionar)='editar($event)'
+        (remover)='deletarDepto($event)'
         [datasource]="geddpto | filterGeneric : [filtertitleValue,'name']">
       </app-ged-grid>
 </div>
@@ -30,7 +31,6 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title" id="myModalLabel"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> {{modalAction}}</h4>
-
         </div>
 
         <div class="modal-body">
@@ -50,7 +50,8 @@
             <div class="form-group">
                 <label for="criacao" class="col-sm-2 control-label">Criação</label>
                 <div class="col-sm-10">
-                  <input type="date" class="form-control"  [(ngModel)]="depto.criacao" id='criacao' name='criacao' />
+                  <span class="col-sm-2 control-label">{{depto.criacao | date:'dd/MM/yyyy'}}</span>
+                  <!-- <input type="date" class="form-control"  [(ngModel)]="depto.criacao" id='criacao' name='criacao' /> -->
                 </div>
             </div>
             <div class="form-group">
@@ -61,13 +62,13 @@
             </div>
           </form>
         </div>
-        <div class="modal-footer" [hidden]='!modalState'>
+        <div class="modal-footer" [hidden]='!modalStateNovo'>
           <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
           <button  type="button" class="btn btn-primary" (click)='salvarNovo()' data-dismiss="modal">Gravar</button>
         </div>
-        <div class="modal-footer" [hidden]='modalState'>
+        <div class="modal-footer" [hidden]='modalStateNovo'>
           <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-          <button  type="button" class="btn btn-primary" (click)='salvarNovo()' data-dismiss="modal">Atualizar</button>
+          <button  type="button" class="btn btn-primary" (click)='salvarEditar()' data-dismiss="modal">Atualizar</button>
         </div>
       </div>
     </div>

@@ -13,21 +13,20 @@ var Token = require('../models/token');
 router.use(cors());
  
 /*estrategia*/
-
-// passport.use(new Strategy(
-//   function(token, cb) {	
-// 	Token.findOne({'token':token},function(err,user){
-// 		if (err) { return cb(err); }
-// 		if (!user) { return cb(null, false); }
-// 		if(user.expira <= Date.now()) {
-// 			return cb(null,false);
-// 		}
-// 		return cb(null, user);    
-// 	});	
-// }));
+passport.use(new Strategy(
+  function(token, cb) {	
+	Token.findOne({'token':token},function(err,user){
+		if (err) { return cb(err); }
+		if (!user) { return cb(null, false); }
+		if(user.expira <= Date.now()) {
+			return cb(null,false);
+		}
+		return cb(null, user);    
+	});	
+}));
 
 router.use('/user',
-	//passport.authenticate('bearer', { session: false }),
+	passport.authenticate('bearer', { session: false }),
 	(req,res,next)=>{	
 	if(req.body.name){		
 		/*

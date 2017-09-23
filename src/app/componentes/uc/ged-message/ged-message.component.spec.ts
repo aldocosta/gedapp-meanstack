@@ -1,26 +1,25 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PostsComponent } from './posts.component';
+import { GedMessageComponent } from './ged-message.component';
 
-describe('PostsComponent', () => {
-  let component: PostsComponent;
-  let fixture: ComponentFixture<PostsComponent>;
+describe('GedMessageComponent', () => {
+  let component: GedMessageComponent;
+  let fixture: ComponentFixture<GedMessageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PostsComponent ]
+      declarations: [ GedMessageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PostsComponent);
+    fixture = TestBed.createComponent(GedMessageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  /*
+
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
-  */
 });

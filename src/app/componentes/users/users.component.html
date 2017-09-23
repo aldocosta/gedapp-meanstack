@@ -16,8 +16,9 @@
     [columns]='["Nome","Email","",""]'
     [objProps]="['name','email']"
     [dateMask]="['']" 
-    (editar)='editar($event)'
+    (selecionar)='editar($event)'
     (remover)='remover($event)'   
+    [controls]='[true,true]'
     [datasource]="users | filterGeneric : [filtertitleValue,'name']">
   </app-ged-grid>
 

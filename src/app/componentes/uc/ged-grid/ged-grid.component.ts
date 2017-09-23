@@ -10,21 +10,28 @@ export class GedGridComponent implements OnInit {
   @Input() objProps : any[];
   @Input() datasource : any;
   @Input() dateMask: any;   
+  @Input() controls: any[];
   
-  @Output() editar: EventEmitter<any> = new EventEmitter();  
+  @Output() selecionar: EventEmitter<any> = new EventEmitter();  
   @Output() remover: EventEmitter<any> = new EventEmitter();  
 
   constructor() { }
 
   ngOnInit() {
+    if(this.controls.length == 0)    {
+      this.controls.push(true);
+      this.controls.push(true);
+    }
   }
 
-  editarLinha(entidade):void{
-    this.editar.emit(entidade);
+  selecionarLinha(entidade){
+    this.selecionar.emit(entidade);
+    return false;
   }
 
-  deletarLinha(entidade):void{
+  deletarLinha(entidade){
     this.remover.emit(entidade);
+    return false;
   }
 
 }

@@ -1,0 +1,83 @@
+<div class="row" >
+    <header class="w3-container">
+      <h3><b><i class="fa fa-suitcase" aria-hidden="true"></i> Cadastro de Acesso Departamento x Usuário</b></h3>
+    </header>    
+    <fieldset>
+        <form class="navbar-form navbar-left">
+          <!-- <div class="form-group">
+            <input type="text" class="form-control" placeholder="Pesquisar"
+             (input)="filtertitleValue = $event.target.value"/>
+          </div> -->
+          <button type="submit" class="btn btn-primary">Salvar Seleção</button>
+        </form>
+      </fieldset>
+      <div class="row">
+      <div class="col-md-6">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>
+                Departamento
+              </th>
+              <th>
+                Selecionar
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+             <tr *ngFor="let item of geddpto">
+                <td>                
+                  {{item.name}}
+                <td>
+             </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-6">
+          <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>
+                    Departamento
+                  </th>
+                  <th>
+                      Selecionar
+                    </th>                  
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    Fiscal
+                  </td>
+                  <td>
+                      <label>
+                        <input type="checkbox">
+                      </label>
+                  </td>
+                </tr>
+                <tr>
+                    <td>
+                      Transportes
+                    </td>
+                    <td>
+                        <label>
+                          <input type="checkbox">
+                        </label>
+                    </td>
+                  </tr>
+                  <tr>
+                      <td>
+                        Juridico
+                      </td>
+                      <td>
+                          <label>
+                            <input type="checkbox">
+                          </label>
+                      </td>
+                    </tr>
+              </tbody>
+            </table>
+      </div>
+    </div>
+</div>

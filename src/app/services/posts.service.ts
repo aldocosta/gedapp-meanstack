@@ -5,8 +5,8 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Rx';
 
-import { User } from '././Models/user';
-import { AppCommomService } from './services/app-commom.service';
+import { User } from './../Models/user';
+import { AppCommomService } from '../services/app-commom.service';
 
 @Injectable()
 export class PostsService implements OnInit {

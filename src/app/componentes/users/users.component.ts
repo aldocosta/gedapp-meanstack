@@ -5,9 +5,9 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
 
-import { PostsService } from '../posts.service';
-import { LogarUsuarioService } from '../services/logar/logar-usuario.service';
-import { User } from '../Models/user';
+import { PostsService } from '../../services/posts.service';
+import { LogarUsuarioService } from '../../services/logar/logar-usuario.service';
+import { User } from '../../Models/user';
 
 @Component({
   selector: 'app-users',

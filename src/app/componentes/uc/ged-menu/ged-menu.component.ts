@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { LogarUsuarioService } from '../services/logar/logar-usuario.service';
+import { LogarUsuarioService } from './../../../services/logar/logar-usuario.service';
 
-import {MySharedService } from '../services/shared/my-shared.service';
+import {MySharedService } from './../../../services/shared/my-shared.service';
 
 @Component({
   selector: 'app-ged-menu',
