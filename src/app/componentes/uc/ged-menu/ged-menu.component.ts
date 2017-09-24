@@ -26,6 +26,7 @@ export class GedMenuComponent implements OnInit {
 
   logOut(){
     this.state = false;
-    this.ls.logoff();    
+    this.ls.logoff();
+    return false;
   }
 }

@@ -19,10 +19,10 @@
         [dateMask]="['Criacao']"
         (selecionar)='editar($event)'
         (remover)='deletarDepto($event)'
+        [pageSize]='5'
         [datasource]="geddpto | filterGeneric : [filtertitleValue,'name']">
       </app-ged-grid>
 </div>
-
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

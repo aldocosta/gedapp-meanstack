@@ -1,4 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { GedDeptoService } from '../../services/deptos/ged-depto.service';
 import { LogarUsuarioService } from '../../services/logar/logar-usuario.service';
@@ -24,7 +25,8 @@ export class GedDepartamentoComponent implements OnInit {
   modalStateNovo: boolean;
 
   constructor(private _deptoService: GedDeptoService,
-              private _lus: LogarUsuarioService,
+              private ls: LogarUsuarioService,
+              private router: Router,
               private zone: NgZone) {
        this.depto = new GedDepartamento();
   }
@@ -32,7 +34,7 @@ export class GedDepartamentoComponent implements OnInit {
   ngOnInit() {
     this.loadAll();
     this.filtertitleValue = '';
-    this.userlogged = this._lus.pegarUsuarioLogadoViaLocalStorage().user;
+    this.userlogged = this.ls.pegarUsuarioLogadoViaLocalStorage().user;
     this.starNewDepto() ;  
   }
 
@@ -48,6 +50,9 @@ export class GedDepartamentoComponent implements OnInit {
 
   salvarEditar(){
     this._deptoService.updateDepto(this.depto).subscribe(ret=>{      
+    },err=>{
+      this.ls.logoff();
+      this.router.navigate(['/']);      
     });
   }
 
@@ -56,13 +61,19 @@ export class GedDepartamentoComponent implements OnInit {
       this._deptoService.deletarDepartamento(depto).subscribe((ret)=>{
         let i = this.geddpto.indexOf(depto);    
         this.geddpto.splice(i,1);    
-      });      
+      },err=>{
+      this.ls.logoff();
+      this.router.navigate(['/']);      
+    });      
     }
   }
 
   salvarNovo():void{
     this._deptoService.salvarDepartamento(this.depto).subscribe(depto => {      
       this.loadAll();
+    },err=>{
+      this.ls.logoff();
+      this.router.navigate(['/']);      
     });
   }
 
@@ -74,6 +85,9 @@ export class GedDepartamentoComponent implements OnInit {
         element.ownerId = element.owner[0].id;        
       });
       this.geddpto = ret;
+    },err=>{
+      this.ls.logoff();
+      this.router.navigate(['/']);      
     });
   }
 

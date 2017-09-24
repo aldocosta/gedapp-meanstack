@@ -1,7 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
-
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
 
@@ -52,7 +51,7 @@ export class UsersComponent implements OnInit {
     },err=>{
       this.ls.logoff();
       this.router.navigate(['/']);      
-    });    
+    });
   }
 
   editar(user:any){          
@@ -71,6 +70,9 @@ export class UsersComponent implements OnInit {
  salvar(){
     this.postsService.postUser(this.user).subscribe(users => {
       this.users.push(users);      
+    },err=>{
+      this.ls.logoff();
+      this.router.navigate(['/']);      
     });
  }
 
@@ -92,14 +94,20 @@ export class UsersComponent implements OnInit {
           let index = this.users.indexOf(user);
           this.users.splice(index,1);
         //});        
-      });
+      },err=>{
+      this.ls.logoff();
+      this.router.navigate(['/']);      
+    });
    }
  }
 
  update(user){
-       this.postsService.updateUser(user).subscribe(users => {
-          let index = users;          
-        });   
+  this.postsService.updateUser(user).subscribe(users => {
+      let index = users;          
+    },err=>{
+    this.ls.logoff();
+    this.router.navigate(['/']);      
+  });   
  }
 
 }

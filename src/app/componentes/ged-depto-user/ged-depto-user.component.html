@@ -12,72 +12,32 @@
         </form>
       </fieldset>
       <div class="row">
-      <div class="col-md-6">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>
-                Departamento
-              </th>
-              <th>
-                Selecionar
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-             <tr *ngFor="let item of geddpto">
-                <td>                
-                  {{item.name}}
-                <td>
-             </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-md-6">
-          <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>
-                    Departamento
-                  </th>
-                  <th>
-                      Selecionar
-                    </th>                  
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    Fiscal
-                  </td>
-                  <td>
-                      <label>
-                        <input type="checkbox">
-                      </label>
-                  </td>
-                </tr>
-                <tr>
-                    <td>
-                      Transportes
-                    </td>
-                    <td>
-                        <label>
-                          <input type="checkbox">
-                        </label>
-                    </td>
-                  </tr>
-                  <tr>
-                      <td>
-                        Juridico
-                      </td>
-                      <td>
-                          <label>
-                            <input type="checkbox">
-                          </label>
-                      </td>
-                    </tr>
-              </tbody>
-            </table>
-      </div>
+        <fieldset>
+          <legend>Atribuição de Departamento a Usuários</legend>        
+          <div class="col-md-6">
+
+          <app-ged-grid
+              [columns]='["Usuário","Selecionar",""]'
+              [objProps]="['name']"
+              [dateMask]="['']"
+              (selecionar)='editar($event)'
+              (remover)='deletarDepto($event)'
+              [deleteButtonHidden]='true'
+              [datasource]="users">
+          </app-ged-grid>
+           
+          </div>
+          <div class="col-md-6">
+            <app-ged-grid
+              [columns]='["Departamento","Selecionar",""]'
+              [objProps]="['name']"
+              [dateMask]="['']"
+              (selecionar)='editar($event)'
+              (remover)='deletarDepto($event)'
+              [deleteButtonHidden]='true'
+              [datasource]="geddpto">
+            </app-ged-grid>        
+          </div>
+      </fieldset>
     </div>
 </div>

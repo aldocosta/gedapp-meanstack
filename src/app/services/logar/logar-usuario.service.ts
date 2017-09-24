@@ -39,7 +39,7 @@ export class LogarUsuarioService {
   logoff(){
     window.localStorage.removeItem('token');        
     window.localStorage.removeItem('usuario');        
-    this.router.navigate(['/']);
+    this.router.navigate(['/']);    
   }
 
   pegarUsuarioLogadoViaLocalStorage(){

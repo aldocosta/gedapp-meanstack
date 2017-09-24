@@ -18,7 +18,8 @@
     [dateMask]="['']" 
     (selecionar)='editar($event)'
     (remover)='remover($event)'   
-    [controls]='[true,true]'
+    [selectButtonHidden]='false'
+    [deleteButtonHidden]='false'
     [datasource]="users | filterGeneric : [filtertitleValue,'name']">
   </app-ged-grid>
 
