@@ -20,7 +20,7 @@
               [columns]='["Usuário","Selecionar",""]'
               [objProps]="['name']"
               [dateMask]="['']"
-              (selecionar)='editar($event)'
+              (selecionar)='selecionar($event)'
               (remover)='deletarDepto($event)'
               [deleteButtonHidden]='true'
               [datasource]="users">
@@ -38,6 +38,11 @@
               [datasource]="geddpto">
             </app-ged-grid>        
           </div>
+      </fieldset>
+    </div>
+    <div class="row">
+      <fieldset>
+        <legend>Usuarios permitidos</legend>
       </fieldset>
     </div>
 </div>

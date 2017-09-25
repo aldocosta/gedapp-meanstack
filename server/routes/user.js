@@ -9,8 +9,12 @@ const Strategy = require('passport-http-bearer').Strategy;
 var User = require('../models/user');
 var Token = require('../models/token');
 
+var corsOptions = {
+  origin: 'http://localhost:4200',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
+}
 
-router.use(cors());
+router.use(cors(corsOptions));
  
 /*estrategia*/
 passport.use(new Strategy(
@@ -75,7 +79,7 @@ router.post('/logar',function(req,res,next){
 			/*
 				Toke expira depois de 10 minutos
 			*/
-			let dnow = Date.now() + ((60 * 1000) * 10);        	
+			let dnow = Date.now() + ((60 * 1000) * 60);        	
 			
         	let utoken = new Token({				
         		token: user.password+'__'+user.id+'_'+dnow,
@@ -107,9 +111,22 @@ router.post('/logar',function(req,res,next){
     });	
 });
 
-/*restful na rota /user*/
-User.methods(['get','put','post','delete']);
 
-User.register(router,'/user')
+router.get('/users',(req,res,next)=>{
+	User.find({},{
+		_id:1,name:1,email:1,roles:1
+	}).then((users_)=>{
+		res.json(users_);		
+	});
+});
+
+/*restful na rota /user*/
+User.methods(['put','post','delete']);
+
+User.register(router,'/users')
 
 module.exports = router;
+
+
+
+

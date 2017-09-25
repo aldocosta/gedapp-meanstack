@@ -5,12 +5,9 @@
     <fieldset>
         <form class="navbar-form navbar-left">
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Pesquisar"
-             (input)="filtertitleValue = $event.target.value"/>
+            <button class="btn btn-link"  data-toggle="modal" (click)='novo();'
+            data-target="#myModal"><i class="fa fa-suitcase" aria-hidden="true"></i> Novo Depto</button>            
           </div>
-          <button class="btn btn-link"  data-toggle="modal" (click)='novo();'
-          data-target="#myModal"><i class="fa fa-suitcase" aria-hidden="true"></i> Novo Depto</button>
-
         </form>
       </fieldset>
       <app-ged-grid

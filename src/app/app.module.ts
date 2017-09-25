@@ -36,7 +36,8 @@ const appRoutes: Routes = [
     UsersComponent,
     UserFilterPipePipe,
     LoginComponent,    
-    GedMenuComponent, GedDepartamentoComponent, FilterGenericPipe, GedGridComponent, GedMessageComponent, GedDeptoUserComponent 
+    GedMenuComponent, GedDepartamentoComponent, FilterGenericPipe, GedGridComponent, GedMessageComponent, 
+    GedDeptoUserComponent 
   ],
   imports: [
     BrowserModule,    

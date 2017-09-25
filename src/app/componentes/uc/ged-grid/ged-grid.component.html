@@ -1,3 +1,11 @@
+<fieldset>
+  <legend></legend>
+  <form class="navbar-form navbar-left">
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Pesquisar" 
+   (input)="filtertitleValue = $event.target.value"/>
+    </div>          
+  </form>
 <table class="table table-striped">
   <thead>
     <tr >
@@ -7,7 +15,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor='let itens of productsChunks[page]'>
+    <tr *ngFor="let itens of productsChunks[page] | filterGeneric : [filtertitleValue,'name'] ">
       <td *ngFor='let p of objProps'>        
         <span *ngIf='dateMask.indexOf(p)>-1'> {{itens[p] | date:'dd/MM/yyyy'}}</span>
         <span *ngIf='dateMask[0] !=p'> {{itens[p]}}</span>        
@@ -23,7 +31,7 @@
   </tbody>
   <tfoot>
     <tr>
-      <td colspan="2">
+      <td [attr.colspan]="columns.length-1">
         <nav aria-label="Page navigation">
           <ul class="pagination">
             
@@ -36,3 +44,4 @@
     </tr>
   </tfoot>
 </table>
+</fieldset>

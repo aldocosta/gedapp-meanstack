@@ -4,11 +4,10 @@
   </header>
   <fieldset>      
     <form class="navbar-form navbar-left">      
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Pesquisar" 
-         (input)="filtertitleValue = $event.target.value"/>        
+      <div class="form-group">        
+        <button class="btn btn-link" (click)='novo();' data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-user"></span> Novo Usuário</button>      
       </div>              
-      <button class="btn btn-link" (click)='novo();' data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-user"></span> Novo Usuário</button>      
+      
     </form>
   </fieldset>
 
@@ -20,7 +19,8 @@
     (remover)='remover($event)'   
     [selectButtonHidden]='false'
     [deleteButtonHidden]='false'
-    [datasource]="users | filterGeneric : [filtertitleValue,'name']">
+    [pageSize]='10'
+    [datasource]="users">
   </app-ged-grid>
 
   <!--<table class="table table-striped">

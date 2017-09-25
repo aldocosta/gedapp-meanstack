@@ -9,7 +9,12 @@ var Token = require('../models/token');
 const passport = require('passport');
 const Strategy = require('passport-http-bearer').Strategy;
 
-router.use(cors());
+var corsOptions = {
+  origin: 'http://localhost:4200',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
+}
+
+router.use(cors(corsOptions));
 
 /*estrategia*/
 passport.use(new Strategy(

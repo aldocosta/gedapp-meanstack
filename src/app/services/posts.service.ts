@@ -38,7 +38,7 @@ export class PostsService implements OnInit {
 
     var erro = {status:'',statusText:''};
     
-    return this.http.get(this.urlApi + '/user',options)
+    return this.http.get(this.urlApi + '/users',options)
     .map(res => res.json()).    
     catch(err=> {
        erro.status = err.status;
@@ -61,7 +61,7 @@ export class PostsService implements OnInit {
     headers.append("Authorization","Bearer "+ window.localStorage.getItem("token"));
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(this.urlApi + '/user/',JSON.stringify(body),options)
+    return this.http.post(this.urlApi + '/users/',JSON.stringify(body),options)
     .map(res => res.json());
   }
 
@@ -75,7 +75,7 @@ export class PostsService implements OnInit {
        method: RequestMethod.Delete
      }); 
    
-   let url = this.urlApi+  '/user/'+user._id;
+   let url = this.urlApi+  '/users/'+user._id;
 
    return this.http.delete(url,options).map(res => res.json());   
   }
@@ -96,7 +96,7 @@ export class PostsService implements OnInit {
          headers: headers         
        });     
      
-     let url = this.urlApi + '/user/'+user._id;
+     let url = this.urlApi + '/users/'+user._id;
 
      return this.http.put(url,body,options).map(res => res.json());   
   }

@@ -6,6 +6,7 @@ import { PostsService } from '../../services/posts.service';
 
 import { GedDepartamento } from '../../Models/ged-departamento';
 import { User } from '../../Models/user';
+import { DeptoUsers } from '../../Models/depto-users';
 
 @Component({
   selector: 'app-ged-depto-user',
@@ -16,6 +17,7 @@ import { User } from '../../Models/user';
 export class GedDeptoUserComponent implements OnInit {
   geddpto: any[];
   users = [];
+  deptoUser : DeptoUsers;
 
   constructor(private _deptoService: GedDeptoService,
               private _lus: LogarUsuarioService,
@@ -26,6 +28,7 @@ export class GedDeptoUserComponent implements OnInit {
   }
 
   private loadAll(){
+    this.deptoUser = new DeptoUsers();
   	this._deptoService.retornardepartamentos().subscribe(ret =>{
   	  let obj : any;
   	  ret.forEach(element => {
@@ -45,6 +48,10 @@ export class GedDeptoUserComponent implements OnInit {
       //this.router.navigate(['/']);      
     });
 
+  }
+
+  private selecionar(obj:Event){
+    console.log(obj);    
   }
 
 }
