@@ -23,6 +23,7 @@ export class UsersComponent implements OnInit {
   visible:boolean;
   _id:string;
   usuario :{};
+  filterKey:string;
 
   constructor(private postsService: PostsService,
               private router: Router,
@@ -32,26 +33,27 @@ export class UsersComponent implements OnInit {
     this.user = new User();     
     this.user.roles=[];
     this.modalAction = "Editar";    
-    this._id='UsersComponent';    
+    this._id='UsersComponent';   
+    this.filterKey = 'email';
    }
 
   ngOnInit() {
     this.filtertitleValue = '';  
     this.visible = true;
     
-    let u = this.ls.pegarUsuarioLogadoViaLocalStorage();
-
-    this.postsService.getAllUsers()
+    //let u = this.ls.pegarUsuarioLogadoViaLocalStorage();
+    this.loadAll();
+    /*this.postsService.getAllUsers()
     .subscribe(ret => {
-      this.zone.run(()=>{
+      //this.zone.run(()=>{
         this.users = ret;
         this.visible = false;
-      });
+      //});
       
     },err=>{
       this.ls.logoff();
       this.router.navigate(['/']);      
-    });
+    });*/
   }
 
   editar(user:any){          
@@ -68,12 +70,14 @@ export class UsersComponent implements OnInit {
   }
 
  salvar(){
-    this.postsService.postUser(this.user).subscribe(users => {
-      this.users.push(users);      
-    },err=>{
-      this.ls.logoff();
-      this.router.navigate(['/']);      
-    });
+   //this.zone.run(()=>{
+      this.postsService.postUser(this.user).subscribe(users => {
+          this.loadAll();          
+      },err=>{
+        this.ls.logoff();
+        this.router.navigate(['/']);      
+      });
+    //});
  }
 
  pushRole(role){ 
@@ -88,12 +92,9 @@ export class UsersComponent implements OnInit {
  remover(user){
    if(confirm('Deseja remover este usuário?')){
      this.postsService.deleteUser(user).subscribe(users => {
-        //this.zone.run(()=>{
-           //this.users = users;
-          // this.visible = false;
-          let index = this.users.indexOf(user);
-          this.users.splice(index,1);
-        //});        
+        this.zone.run(()=>{          
+          this.loadAll();          
+        });        
       },err=>{
       this.ls.logoff();
       this.router.navigate(['/']);      
@@ -110,4 +111,17 @@ export class UsersComponent implements OnInit {
   });   
  }
 
+loadAll(){
+      this.postsService.getAllUsers()
+    .subscribe(ret => {
+      //this.zone.run(()=>{
+        this.users = ret;
+        this.visible = false;
+      //});
+      
+    },err=>{
+      this.ls.logoff();
+      this.router.navigate(['/']);      
+    });
+}
 }

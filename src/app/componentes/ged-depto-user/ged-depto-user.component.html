@@ -1,48 +1,49 @@
 <div class="row" >
     <header class="w3-container">
       <h3><b><i class="fa fa-suitcase" aria-hidden="true"></i> Cadastro de Acesso Departamento x Usuário</b></h3>
-    </header>    
-    <fieldset>
-        <form class="navbar-form navbar-left">
-          <!-- <div class="form-group">
-            <input type="text" class="form-control" placeholder="Pesquisar"
-             (input)="filtertitleValue = $event.target.value"/>
-          </div> -->
-          <button type="submit" class="btn btn-primary">Salvar Seleção</button>
-        </form>
-      </fieldset>
+    </header>
       <div class="row">
         <fieldset>
-          <legend>Atribuição de Departamento a Usuários</legend>        
-          <div class="col-md-6">
-
-          <app-ged-grid
-              [columns]='["Usuário","Selecionar",""]'
-              [objProps]="['name']"
-              [dateMask]="['']"
-              (selecionar)='selecionar($event)'
-              (remover)='deletarDepto($event)'
-              [deleteButtonHidden]='true'
-              [datasource]="users">
-          </app-ged-grid>
-           
-          </div>
-          <div class="col-md-6">
-            <app-ged-grid
-              [columns]='["Departamento","Selecionar",""]'
-              [objProps]="['name']"
-              [dateMask]="['']"
-              (selecionar)='editar($event)'
-              (remover)='deletarDepto($event)'
-              [deleteButtonHidden]='true'
-              [datasource]="geddpto">
-            </app-ged-grid>        
+          <legend>Atribuição de Departamento a Usuários</legend>                  
+            <div class="row">
+                <div class="col-md-6">
+                  <app-ged-list            
+                  [datasource]='[users,"name","Usuarios"]'
+                  (selecionar)='selecionandoItemList($event)'
+                   >              
+                  </app-ged-list>
+                </div>
+                <div class="col-md-6">
+                <app-ged-list             
+                  [name]='name'
+                  [datasource]='[geddpto,"name","Departamentos"]' 
+                  [title]='Departamentos'
+                  (selecionar)='selecionarDepto($event)'>
+                </app-ged-list>
+                </div>
+            </div>
+          <div class="row">
+            <fieldset>
+                <form class="navbar-form navbar-left">
+                  <button type="submit" class="btn-link btn-primary" (click)='salvarSelecao()'>
+                  <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
+                  Salvar Seleção
+                </button>
+                </form>
+            </fieldset>            
           </div>
       </fieldset>
     </div>
     <div class="row">
-      <fieldset>
-        <legend>Usuarios permitidos</legend>
+      <fieldset>        
+        <app-ged-grid
+          [columns]='["Usuário","Departamento","",""]'
+          [objProps]="['user','depto']"
+          [dateMask]="['']"
+          [pageSize]='5'
+          [filterKey]=filterKey
+          [datasource]="usuarioDeptoList"> 
+        </app-ged-grid>        
       </fieldset>
     </div>
 </div>

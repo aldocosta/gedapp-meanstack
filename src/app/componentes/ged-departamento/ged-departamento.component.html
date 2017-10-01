@@ -13,11 +13,11 @@
       <app-ged-grid
         [columns]='["Depto","Descrição","Criação","Owner","",""]'
         [objProps]="['name','descricao','criacao','owner']"
-        [dateMask]="['Criacao']"
+        [dateMask]="['criacao']"
         (selecionar)='editar($event)'
         (remover)='deletarDepto($event)'
         [pageSize]='5'
-        [datasource]="geddpto | filterGeneric : [filtertitleValue,'name']">
+        [datasource]="geddpto">
       </app-ged-grid>
 </div>
 

@@ -49,7 +49,8 @@ export class GedDepartamentoComponent implements OnInit {
   }
 
   salvarEditar(){
-    this._deptoService.updateDepto(this.depto).subscribe(ret=>{      
+    this._deptoService.updateDepto(this.depto).subscribe(ret=>{
+      this.loadAll();
     },err=>{
       this.ls.logoff();
       this.router.navigate(['/']);      
@@ -59,8 +60,9 @@ export class GedDepartamentoComponent implements OnInit {
   deletarDepto(depto:any){
     if(confirm('Deseja remover este departamento?')){
       this._deptoService.deletarDepartamento(depto).subscribe((ret)=>{
-        let i = this.geddpto.indexOf(depto);    
-        this.geddpto.splice(i,1);    
+        /*let i = this.geddpto.indexOf(depto);    
+        this.geddpto.splice(i,1);*/
+        this.loadAll();
       },err=>{
       this.ls.logoff();
       this.router.navigate(['/']);      

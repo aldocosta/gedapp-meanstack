@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { GedDeptoService } from '../../services/deptos/ged-depto.service';
-import {LogarUsuarioService } from '../../services/logar/logar-usuario.service';
+import { LogarUsuarioService } from '../../services/logar/logar-usuario.service';
 import { PostsService } from '../../services/posts.service';
+import { DeptoUsuarioService } from '../../services/deptoUsuario/depto-usuario.service';
 
 import { GedDepartamento } from '../../Models/ged-departamento';
 import { User } from '../../Models/user';
 import { DeptoUsers } from '../../Models/depto-users';
+import { UsuarioDepartamento } from '../../Models/usuario-departamento';
 
 @Component({
   selector: 'app-ged-depto-user',
@@ -18,17 +21,29 @@ export class GedDeptoUserComponent implements OnInit {
   geddpto: any[];
   users = [];
   deptoUser : DeptoUsers;
+  usuarioDeptoList : any = [];
+  usuarioDepartamento : UsuarioDepartamento;
+  filterKey:String;  
 
   constructor(private _deptoService: GedDeptoService,
               private _lus: LogarUsuarioService,
-              private postsService: PostsService) { }
+              private zone: NgZone,
+              private router: Router,
+              private postsService: PostsService,
+              private dus: DeptoUsuarioService) {
+    this.filterKey = 'depto';
+    }
 
   ngOnInit() {
   	this.loadAll();
   }
 
   private loadAll(){
+
+    this.usuarioDepartamento = new UsuarioDepartamento();
     this.deptoUser = new DeptoUsers();
+    
+    
   	this._deptoService.retornardepartamentos().subscribe(ret =>{
   	  let obj : any;
   	  ret.forEach(element => {
@@ -36,22 +51,43 @@ export class GedDeptoUserComponent implements OnInit {
   	    element.ownerId = element.owner[0].id;        
   	  });
   	  this.geddpto = ret;
-  	});    
+  	}) ;    
 
     this.postsService.getAllUsers()
-    .subscribe(ret => {
-      //this.zone.run(()=>{
-        this.users = ret;
-      //});      
+    .subscribe(ret => {      
+        this.users = ret;      
     },err=>{
-      //this.ls.logoff();
-      //this.router.navigate(['/']);      
+      this._lus.logoff();
+      this.router.navigate(['/']);      
+    });
+     
+    this.dus.retornarDepartamentoUsuarios().subscribe(ret=>{      
+      let arr = [];
+      ret.forEach((el)=>{
+        let u = new UsuarioDepartamento();
+        u._id = el._id;
+        u.criacao  = el.criacao;
+        u.depto  = el.depto[0].name;
+        u.user  = el.user[0].name;
+        arr.push(u);
+      });      
+      
+      this.usuarioDeptoList = arr;
+      console.log(this.usuarioDeptoList);
     });
 
   }
 
-  private selecionar(obj:Event){
+  private selecionarDepto(obj:Event){    
     console.log(obj);    
   }
 
+  selecionandoItemList(el){
+     
+  }
+
+  public salvarSelecao(){    
+    this.usuarioDeptoList.push(this.usuarioDepartamento);
+    this.usuarioDepartamento = new UsuarioDepartamento();
+  }
 }

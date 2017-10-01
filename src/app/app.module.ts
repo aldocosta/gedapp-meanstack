@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes  } from '@angular/router';
   
 import { PostsService } from './services/posts.service';
+import { DeptoUsuarioService } from './services/deptoUsuario/depto-usuario.service';
 
 import { AppComponent } from './app.component';
 import { ExtrasComponent } from './extras/extras.component';
@@ -20,6 +21,7 @@ import { GedGridComponent } from './componentes/uc/ged-grid/ged-grid.component';
 import { AppCommomService } from './services/app-commom.service';
 import { GedMessageComponent } from './componentes/uc/ged-message/ged-message.component';
 import { GedDeptoUserComponent } from './componentes/ged-depto-user/ged-depto-user.component';
+import { GedListComponent } from './componentes/uc/ged-list/ged-list.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent }  ,
@@ -37,7 +39,7 @@ const appRoutes: Routes = [
     UserFilterPipePipe,
     LoginComponent,    
     GedMenuComponent, GedDepartamentoComponent, FilterGenericPipe, GedGridComponent, GedMessageComponent, 
-    GedDeptoUserComponent 
+    GedDeptoUserComponent, GedListComponent 
   ],
   imports: [
     BrowserModule,    
@@ -47,7 +49,8 @@ const appRoutes: Routes = [
   ],
   providers: [
               PostsService,
-              AppCommomService
+              AppCommomService,
+              DeptoUsuarioService
             ],
   bootstrap: [AppComponent]
 })

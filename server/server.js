@@ -10,6 +10,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/ged_app');
 const api = require('../server/routes/api');
 const userApi = require('../server/routes/user');
 const deptoApi = require('../server/routes/departamento');
+const deptoUsers = require('../server/routes/usuarioDepartamento');
 
 const app = express();
 
@@ -24,6 +25,8 @@ app.use(express.static(path.join(__dirname, '../dist')));
 app.use('/api', api);
 app.use(userApi);
 app.use(deptoApi);
+app.use(deptoUsers);
+
 
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
