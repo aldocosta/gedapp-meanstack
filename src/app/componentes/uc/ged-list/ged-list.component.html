@@ -2,7 +2,7 @@
 <legend>
   {{_title}} 
 </legend>
-  <select multiple class="form-control" style="height: 180px">
+  <select class="form-control" >
   <option *ngFor="let item of _datasource" (click)='selecionarLinha(item)' >
     {{item[_name]}}
   </option>            

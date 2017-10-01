@@ -23,7 +23,10 @@ export class GedDeptoUserComponent implements OnInit {
   deptoUser : DeptoUsers;
   usuarioDeptoList : any = [];
   usuarioDepartamento : UsuarioDepartamento;
-  filterKey:String;  
+  filterKey:String; 
+  pages = []; 
+  page : number;
+  productsChunks = [];  
 
   constructor(private _deptoService: GedDeptoService,
               private _lus: LogarUsuarioService,
@@ -31,7 +34,7 @@ export class GedDeptoUserComponent implements OnInit {
               private router: Router,
               private postsService: PostsService,
               private dus: DeptoUsuarioService) {
-    this.filterKey = 'depto';
+      this.filterKey = 'user';
     }
 
   ngOnInit() {
@@ -39,28 +42,15 @@ export class GedDeptoUserComponent implements OnInit {
   }
 
   private loadAll(){
-
     this.usuarioDepartamento = new UsuarioDepartamento();
-    this.deptoUser = new DeptoUsers();
-    
-    
-  	this._deptoService.retornardepartamentos().subscribe(ret =>{
-  	  let obj : any;
-  	  ret.forEach(element => {
-  	    element.owner = element.owner[0].name;
-  	    element.ownerId = element.owner[0].id;        
-  	  });
-  	  this.geddpto = ret;
-  	}) ;    
+    this.deptoUser = new DeptoUsers();    
 
-    this.postsService.getAllUsers()
-    .subscribe(ret => {      
-        this.users = ret;      
-    },err=>{
-      this._lus.logoff();
-      this.router.navigate(['/']);      
-    });
-     
+    this.loadDeptos();
+    this.loadUsers();
+    this.loadDeptoUsers();    
+  }
+
+  private loadDeptoUsers(){
     this.dus.retornarDepartamentoUsuarios().subscribe(ret=>{      
       let arr = [];
       ret.forEach((el)=>{
@@ -71,23 +61,59 @@ export class GedDeptoUserComponent implements OnInit {
         u.user  = el.user[0].name;
         arr.push(u);
       });      
-      
       this.usuarioDeptoList = arr;
-      console.log(this.usuarioDeptoList);
-    });
-
+    });    
   }
 
-  private selecionarDepto(obj:Event){    
-    console.log(obj);    
+  private loadUsers(){
+    let chunkSize = 5;//this.pageSize;              
+    let c = 1;
+    this.productsChunks = [];
+    this.page=0;
+
+    this.postsService.getAllUsers()
+    .subscribe(ret => {
+        for(let i=0; i< ret.length; i+= chunkSize){
+          this.productsChunks.push(ret.slice(i,i+chunkSize));
+          this.pages.push(c);
+          c++;
+        }      
+        this.users = this.productsChunks[this.page];      
+    },err=>{
+      this._lus.logoff();
+      this.router.navigate(['/']);      
+    });    
   }
 
-  selecionandoItemList(el){
-     
+  private loadDeptos(){
+    this._deptoService.retornardepartamentos().subscribe(ret =>{
+        let obj : any;
+        ret.forEach(element => {
+          element.owner = element.owner[0].name;
+          element.ownerId = element.owner[0].id;        
+        });
+        this.geddpto = ret;
+      });
+  }
+
+  private selecionarDepto(obj){    
+    this.usuarioDepartamento.depto = obj._id;    
+    this.usuarioDepartamento.deptoName = obj.name;    
+  }
+
+  private selecionarUsuario(obj){     
+    this.usuarioDepartamento.user = obj._id;
+    this.usuarioDepartamento.userName = obj.name;
   }
 
   public salvarSelecao(){    
-    this.usuarioDeptoList.push(this.usuarioDepartamento);
-    this.usuarioDepartamento = new UsuarioDepartamento();
+    this.dus.salvarDepartamento(this.usuarioDepartamento).subscribe(ret=>{
+      this.loadDeptoUsers();
+    });    
+  }
+  private paginateUser(i){
+    this.page = i-1;
+    this.users = this.productsChunks[this.page];      
+    return false;
   }
 }

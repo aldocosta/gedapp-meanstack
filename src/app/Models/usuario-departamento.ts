@@ -1,6 +1,8 @@
 export class UsuarioDepartamento {
 	_id : string;
-	user : [String];
-	depto : [String];
+	user : String;
+	userName : String;
+	depto : String;
+	deptoName : String;
 	criacao : Date;
 }

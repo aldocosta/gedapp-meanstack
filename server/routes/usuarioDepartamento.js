@@ -49,6 +49,24 @@ router.get('/depto_users',
 });
 
 
+
+router.post('/depto_users',
+    //passport.authenticate('bearer', { session: false }),
+    function(req,res,next){
+        let mongoose = require('mongoose');
+        var d = new DeptoUsers();
+        d.user = mongoose.Types.ObjectId(req.body.user);
+        d.depto = mongoose.Types.ObjectId(req.body.depto);
+
+        d.save().then(function(_d){
+            res.json(_d);        
+        }).catch((err)=>{
+            res.json(err);        
+        });
+});
+
+
+
 DeptoUsers.methods(['put','delete', 'post', 'patch']);
 
 DeptoUsers.register(router,'/depto_users')

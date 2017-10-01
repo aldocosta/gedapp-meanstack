@@ -4,34 +4,91 @@
     </header>
       <div class="row">
         <fieldset>
-          <legend>Atribuição de Departamento a Usuários</legend>                  
+          <legend>Atribuição de Departamento a Usuários</legend> 
+            <!--<div class="row">
+                <fieldset>
+                  <div class="col-md-4">
+                    <form class="navbar-form navbar-left">
+                      <button type="submit" class="btn-link btn-primary" (click)='salvarSelecao()'>
+                        <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
+                        Salvar Seleção
+                      </button>
+                      <button type="submit" class="btn-link btn-primary" (click)='salvarSelecao()'>
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        Remover Seleção
+                      </button>                    
+                    </form>                                      
+                  </div>                              
+                  <div class="col-md-3">
+                    <input class="form-control" id="disabledInput" type="text" [(ngModel)]="usuarioDepartamento.userName" disabled>                  
+                  </div>
+                  <div class="col-md-3">
+                    <input class="form-control" id="disabledInput" type="text" [(ngModel)]="usuarioDepartamento.deptoName" disabled>                  
+                  </div>
+                </fieldset>
+            </div> -->
             <div class="row">
                 <div class="col-md-6">
-                  <app-ged-list            
-                  [datasource]='[users,"name","Usuarios"]'
-                  (selecionar)='selecionandoItemList($event)'
-                   >              
-                  </app-ged-list>
+                  <form action="" name="usuarios">
+                    <table class="table table-striped table-condensed" >
+                      <thead>
+                        <tr>
+                          <th>Usuários</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of users">                        
+                          <td>
+                           <label for="{{item.name}}"  >
+                             {{item.name}}
+                           </label> 
+                          </td>
+                          <td>
+                            <label>
+                              <input type="radio" name='usuarios' [attr.id]='item.name'>  
+                            </label>    
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <nav aria-label="Page navigation">
+                            <ul class="pagination">            
+                              <li *ngFor="let n of pages" (click)='paginateUser(n)'>
+                                <a href="#">{{n}}</a></li>
+                            </ul>
+                          </nav>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </form>
                 </div>
                 <div class="col-md-6">
-                <app-ged-list             
-                  [name]='name'
-                  [datasource]='[geddpto,"name","Departamentos"]' 
-                  [title]='Departamentos'
-                  (selecionar)='selecionarDepto($event)'>
-                </app-ged-list>
+                  <table class="table table-striped table-condensed">
+                    <thead>
+                      <tr>
+                        <th>Usuários</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of geddpto">                        
+                        <td>
+                         <label for="{{item.name}}"  >
+                           {{item.name}}
+                         </label> 
+                        </td>
+                        <td>
+                          <label>
+                            <input type="checkbox" [attr.name]='item.name' [attr.id]='item.name'>  
+                          </label>    
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-            </div>
-          <div class="row">
-            <fieldset>
-                <form class="navbar-form navbar-left">
-                  <button type="submit" class="btn-link btn-primary" (click)='salvarSelecao()'>
-                  <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
-                  Salvar Seleção
-                </button>
-                </form>
-            </fieldset>            
-          </div>
+            </div>                        
       </fieldset>
     </div>
     <div class="row">

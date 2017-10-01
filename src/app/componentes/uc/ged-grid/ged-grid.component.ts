@@ -15,14 +15,13 @@ export class GedGridComponent implements  OnChanges {
   @Input() pageSize: any;  
   @Input() filterKey: String;  
   @Input() filterVisibility: boolean;  
-  
+
   @Output() selecionar: EventEmitter<any> = new EventEmitter();  
   @Output() remover: EventEmitter<any> = new EventEmitter();  
 
   pages = [];
   page : number;
-  productsChunks = [];  
-  @Input() nada:string;
+  productsChunks = [];
 
   constructor(private zone: NgZone) {     
     this.page = this.page || 0;
