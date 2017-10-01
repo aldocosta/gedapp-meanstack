@@ -25,8 +25,12 @@ export class GedDeptoUserComponent implements OnInit {
   usuarioDepartamento : UsuarioDepartamento;
   filterKey:String; 
   pages = []; 
+  pagesDepto = [];   
   page : number;
-  productsChunks = [];  
+  pageDepto : number;  
+  usersChunks = [];  
+  deptoChunks = []; 
+  chunkSize:number = 5;   
 
   constructor(private _deptoService: GedDeptoService,
               private _lus: LogarUsuarioService,
@@ -65,20 +69,19 @@ export class GedDeptoUserComponent implements OnInit {
     });    
   }
 
-  private loadUsers(){
-    let chunkSize = 5;//this.pageSize;              
+  private loadUsers(){    
     let c = 1;
-    this.productsChunks = [];
+    this.usersChunks = [];
     this.page=0;
 
     this.postsService.getAllUsers()
     .subscribe(ret => {
-        for(let i=0; i< ret.length; i+= chunkSize){
-          this.productsChunks.push(ret.slice(i,i+chunkSize));
+        for(let i=0; i< ret.length; i+= this.chunkSize){
+          this.usersChunks.push(ret.slice(i,i+ this.chunkSize));
           this.pages.push(c);
           c++;
         }      
-        this.users = this.productsChunks[this.page];      
+        this.users = this.usersChunks[this.page];      
     },err=>{
       this._lus.logoff();
       this.router.navigate(['/']);      
@@ -86,13 +89,21 @@ export class GedDeptoUserComponent implements OnInit {
   }
 
   private loadDeptos(){
-    this._deptoService.retornardepartamentos().subscribe(ret =>{
+    this._deptoService.retornardepartamentos().subscribe(ret =>{      
         let obj : any;
+        let c = 1;
+        this.pageDepto = 0;        
         ret.forEach(element => {
           element.owner = element.owner[0].name;
           element.ownerId = element.owner[0].id;        
         });
-        this.geddpto = ret;
+
+        for(let i=0; i< ret.length; i+= this.chunkSize){
+          this.deptoChunks.push(ret.slice(i,i+ this.chunkSize));
+          this.pagesDepto.push(c);
+          c++;
+        }        
+        this.geddpto = this.deptoChunks[this.pageDepto];
       });
   }
 
@@ -111,9 +122,16 @@ export class GedDeptoUserComponent implements OnInit {
       this.loadDeptoUsers();
     });    
   }
+
   private paginateUser(i){
     this.page = i-1;
-    this.users = this.productsChunks[this.page];      
+    this.users = this.usersChunks[this.page];      
     return false;
+  }
+
+  private paginateDepto(i){
+    this.pageDepto = i-1;
+    this.geddpto = this.deptoChunks[this.pageDepto];      
+    return false;      
   }
 }
