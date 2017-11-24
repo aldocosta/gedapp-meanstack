@@ -1,6 +1,4 @@
-export class DeptoUsers {
-	userId:string;
-	userName:string;
+export class DeptoUsers {	
 	deptoId:string;
-	deptoName:string;
+	userIds = [];
 }

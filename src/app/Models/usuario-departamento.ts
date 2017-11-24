@@ -5,4 +5,6 @@ export class UsuarioDepartamento {
 	depto : String;
 	deptoName : String;
 	criacao : Date;
+	deptoCheck:Boolean;
+	userCheck:Boolean;
 }

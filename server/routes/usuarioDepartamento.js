@@ -62,10 +62,26 @@ router.post('/depto_users',
             res.json(_d);        
         }).catch((err)=>{
             res.json(err);        
-        });
+    });
+
 });
 
 
+router.post('/depto_users_list',function(req,res,next){
+	let mongoose = require('mongoose');
+	let obj = req.body.userList;
+
+	obj.userIds.forEach((id)=>{
+		var d = new DeptoUsers();
+        d.user = mongoose.Types.ObjectId(id);
+        d.depto = mongoose.Types.ObjectId(obj.deptoId);
+        d.save().then((retorno)=>{
+        	console.log(retorno);
+        });
+	});
+
+	res.json('Finalizado');
+});
 
 DeptoUsers.methods(['put','delete', 'post', 'patch']);
 

@@ -1,18 +1,37 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone,  Input } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { trigger, state, style, animate,  transition} from '@angular/animations';
 
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
 
 import { PostsService } from '../../services/posts.service';
 import { LogarUsuarioService } from '../../services/logar/logar-usuario.service';
+import { ErrorHandlingHelperService } from '../../services/errorHandling/error-handling-helper.service';
+
 import { User } from '../../Models/user';
 
 @Component({
   selector: 'app-users',
   providers: [LogarUsuarioService],
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']  
+  styleUrls: ['./users.component.css'] ,
+    animations: [
+    trigger('heroState', [
+      state('inactive', style({
+        backgroundColor: '#eee',
+        transform: 'scale(1)',
+        opacity:0
+      })),
+      state('active',   style({
+        backgroundColor: '#cfd8dc',
+        transform: 'scale(1.1)',
+        opacity:1
+      })),
+      transition('inactive => active', animate('100ms ease-in')),
+      transition('active => inactive', animate('2000ms ease-out'))
+    ])
+  ] 
 })
 export class UsersComponent implements OnInit {
   users = [];   
@@ -24,12 +43,16 @@ export class UsersComponent implements OnInit {
   _id:string;
   usuario :{};
   filterKey:string;
+  state:String;
+  msg: String;
+
 
   constructor(private postsService: PostsService,
               private router: Router,
               private route: ActivatedRoute,
               private zone: NgZone,
-              private ls: LogarUsuarioService) {
+              private ls: LogarUsuarioService,
+              private ehs: ErrorHandlingHelperService) {
     this.user = new User();     
     this.user.roles=[];
     this.modalAction = "Editar";    
@@ -40,20 +63,7 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
     this.filtertitleValue = '';  
     this.visible = true;
-    
-    //let u = this.ls.pegarUsuarioLogadoViaLocalStorage();
-    this.loadAll();
-    /*this.postsService.getAllUsers()
-    .subscribe(ret => {
-      //this.zone.run(()=>{
-        this.users = ret;
-        this.visible = false;
-      //});
-      
-    },err=>{
-      this.ls.logoff();
-      this.router.navigate(['/']);      
-    });*/
+    this.loadAll();    
   }
 
   editar(user:any){          
@@ -70,14 +80,20 @@ export class UsersComponent implements OnInit {
   }
 
  salvar(){
-   //this.zone.run(()=>{
-      this.postsService.postUser(this.user).subscribe(users => {
-          this.loadAll();          
-      },err=>{
-        this.ls.logoff();
-        this.router.navigate(['/']);      
-      });
-    //});
+     if(!this.user.nome){
+       this.showMessage('Nome obrigatorio');  
+     }else
+     {
+        this.postsService.postUser(this.user).subscribe(users => {
+            this.loadAll();          
+        },err=>{
+          let errParsed = JSON.parse(err.message);
+            if(errParsed.status=='401'){
+            this.ls.logoff();
+            this.router.navigate(['/']);
+          }      
+        });
+      }
  }
 
  pushRole(role){ 
@@ -112,16 +128,39 @@ export class UsersComponent implements OnInit {
  }
 
 loadAll(){
-      this.postsService.getAllUsers()
+    this.state ='inactive';
+    this.postsService.getAllUsers().catch((err)=>{
+      console.log(err);
+      this.ehs.errorHandler(err);
+        /*let errParsed = JSON.parse(err.message);
+          if(errParsed.status=='401'){
+          this.ls.logoff();
+          this.router.navigate(['/']);
+        } */     
+      return err;
+    })
     .subscribe(ret => {
-      //this.zone.run(()=>{
         this.users = ret;
         this.visible = false;
-      //});
-      
+    });
+/*  this.postsService.getAllUsers()
+    .subscribe(ret => {
+        this.users = ret;
+        this.visible = false;
     },err=>{
       this.ls.logoff();
       this.router.navigate(['/']);      
+    });*/
+  }
+
+ showMessage(msg:String) {
+    this.state = this.state === 'active' ? 'inactive' : 'active';
+    this.msg = msg;
+    setTimeout(100,()=>{
+      this.state ='inactive';
     });
-}
+ }
+
+
+
 }

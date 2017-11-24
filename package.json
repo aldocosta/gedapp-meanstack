@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "runapp": "nodemon server/server.js",
+    "runapp": "nodemon --inspect    server/server.js",
     "build": "ng build && nodemon server/server.js",
     "test": "ng test",
     "lint": "ng lint",

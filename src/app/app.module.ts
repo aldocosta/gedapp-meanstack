@@ -3,9 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes  } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   
 import { PostsService } from './services/posts.service';
 import { DeptoUsuarioService } from './services/deptoUsuario/depto-usuario.service';
+import { ErrorHandlingHelperService } from './services/errorHandling/error-handling-helper.service';
+import { LogarUsuarioService } from './services/logar/logar-usuario.service';
 
 import { AppComponent } from './app.component';
 import { ExtrasComponent } from './extras/extras.component';
@@ -45,12 +48,15 @@ const appRoutes: Routes = [
     BrowserModule,    
     FormsModule,
     HttpModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(appRoutes)    
   ],
   providers: [
               PostsService,
               AppCommomService,
-              DeptoUsuarioService
+              DeptoUsuarioService,
+              ErrorHandlingHelperService,
+              LogarUsuarioService
             ],
   bootstrap: [AppComponent]
 })

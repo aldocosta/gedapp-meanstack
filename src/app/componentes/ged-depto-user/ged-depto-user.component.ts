@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, OnChanges, NgZone } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { GedDeptoService } from '../../services/deptos/ged-depto.service';
@@ -17,10 +17,10 @@ import { UsuarioDepartamento } from '../../Models/usuario-departamento';
   styleUrls: ['./ged-depto-user.component.css'],
   providers:[GedDeptoService]
 })
-export class GedDeptoUserComponent implements OnInit {
+export class GedDeptoUserComponent implements OnInit, OnChanges {
   geddpto: any[];
   users = [];
-  deptoUser : DeptoUsers;
+  deptoUser : DeptoUsers; // aqui seto a agregação de depto x users
   usuarioDeptoList : any = [];
   usuarioDepartamento : UsuarioDepartamento;
   filterKey:String; 
@@ -31,6 +31,8 @@ export class GedDeptoUserComponent implements OnInit {
   usersChunks = [];  
   deptoChunks = []; 
   chunkSize:number = 5;   
+  listaDeptoCheck : any[] = [];
+  usuarioDepartamentoLista = [];
 
   constructor(private _deptoService: GedDeptoService,
               private _lus: LogarUsuarioService,
@@ -43,6 +45,10 @@ export class GedDeptoUserComponent implements OnInit {
 
   ngOnInit() {
   	this.loadAll();
+  }
+
+  ngOnChanges() {
+
   }
 
   private loadAll(){
@@ -62,7 +68,7 @@ export class GedDeptoUserComponent implements OnInit {
         u._id = el._id;
         u.criacao  = el.criacao;
         u.depto  = el.depto[0].name;
-        u.user  = el.user[0].name;
+        u.user  = el.user[0].name;        
         arr.push(u);
       });      
       this.usuarioDeptoList = arr;
@@ -96,6 +102,8 @@ export class GedDeptoUserComponent implements OnInit {
         ret.forEach(element => {
           element.owner = element.owner[0].name;
           element.ownerId = element.owner[0].id;        
+          element.deptoCheck = false;
+          element.userCheck = false;
         });
 
         for(let i=0; i< ret.length; i+= this.chunkSize){
@@ -133,5 +141,35 @@ export class GedDeptoUserComponent implements OnInit {
     this.pageDepto = i-1;
     this.geddpto = this.deptoChunks[this.pageDepto];      
     return false;      
+  }
+
+  private departamentoCheck(item){
+    this.listaDeptoCheck = [];
+    this.usersChunks.forEach((e)=>{      
+      e.forEach((ei)=>{
+        if(ei.userCheck){
+            this.listaDeptoCheck.push(item);
+            console.log(ei);
+          }        
+      });
+    });
+  }
+
+  private gravarRelacao(){
+    this.usersChunks.forEach((e)=>{      
+      e.forEach((ei)=>{
+        if(ei.userCheck){          
+          this.deptoUser.userIds.push(ei._id);
+        }
+      });
+    });
+    this.dus.salvarDepartamentoLista(this.deptoUser).subscribe(ret=>{
+      this.loadDeptoUsers();
+    });
+  }
+
+  private setarDepartamento(departamento){
+    this.deptoUser.deptoId=departamento._id;
+    console.log(this.deptoUser.deptoId);
   }
 }

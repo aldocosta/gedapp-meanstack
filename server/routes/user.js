@@ -112,7 +112,9 @@ router.post('/logar',function(req,res,next){
 });
 
 
-router.get('/users',(req,res,next)=>{
+router.get('/users',
+	passport.authenticate('bearer', { session: false }),
+	(req,res,next)=>{
 	User.find({},{
 		_id:1,name:1,email:1,roles:1
 	}).then((users_)=>{

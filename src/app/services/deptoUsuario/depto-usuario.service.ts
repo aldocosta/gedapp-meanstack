@@ -28,7 +28,7 @@ export class DeptoUsuarioService {
 
   salvarDepartamento(ud: UsuarioDepartamento){
     let body =  {
-        user: ud.user,
+        userList: ud.user,
         depto: ud.depto        
     };
 
@@ -41,6 +41,23 @@ export class DeptoUsuarioService {
     });
 
     return this.http.post(this.urlApi + '/depto_users/',JSON.stringify(body),options)
+    .map(res => res.json());
+  }
+
+  salvarDepartamentoLista(udl: any){
+    let body =  {
+        userList: udl
+    };
+
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append("Authorization","Bearer "+ window.localStorage.getItem("token"));
+
+    let options = new RequestOptions(
+    {
+       headers: headers
+    });
+
+    return this.http.post(this.urlApi + '/depto_users_list/',JSON.stringify(body),options)
     .map(res => res.json());
   }
 
