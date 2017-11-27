@@ -9,6 +9,12 @@
             data-target="#myModal"><i class="fa fa-suitcase" aria-hidden="true"></i> Novo Depto</button>            
           </div>
         </form>
+        <form class="navbar-form navbar-left">      
+          <div class="form-group">        
+            <div (click)='closeMessage()' style='cursor: pointer' [@heroState]="state" class="alert alert-info" role="alert">
+             {{msg}}</div>
+          </div>      
+        </form>
       </fieldset>
       <app-ged-grid
         [columns]='["Depto","Descrição","Criação","Owner","",""]'

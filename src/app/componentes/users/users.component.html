@@ -8,9 +8,9 @@
         <button class="btn btn-link" (click)='novo();' data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-user"></span> Novo Usuário</button>      
       </div>      
     </form>
-    <form class="navbar-form navbar-right">      
+    <form class="navbar-form navbar-left">      
       <div class="form-group">        
-        <div (click)='toggleState()'  [@heroState]="state" class="alert alert-info" role="alert">
+        <div (click)='closeState()' style='cursor: pointer' [@heroState]="state" class="alert alert-info" role="alert">
         {{msg}}</div>
       </div>      
     </form>    

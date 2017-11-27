@@ -10,6 +10,7 @@ import { LogarUsuarioService } from '../../services/logar/logar-usuario.service'
 import { ErrorHandlingHelperService } from '../../services/errorHandling/error-handling-helper.service';
 
 import { User } from '../../Models/user';
+//import { setTimeout } from 'timers';
 
 @Component({
   selector: 'app-users',
@@ -28,8 +29,8 @@ import { User } from '../../Models/user';
         transform: 'scale(1.1)',
         opacity:1
       })),
-      transition('inactive => active', animate('100ms ease-in')),
-      transition('active => inactive', animate('2000ms ease-out'))
+      transition('inactive => active', animate('250ms ease-in')),
+      transition('active => inactive', animate('100ms ease-out'))
     ])
   ] 
 })
@@ -80,9 +81,12 @@ export class UsersComponent implements OnInit {
   }
 
  salvar(){
-     if(!this.user.nome){
-       this.showMessage('Nome obrigatorio');  
+     if(!this.user.name){
+       this.showMessage('Atenção! Nome de usuário é obrigatorio!!!');  
      }else
+     if(!this.user.email){
+      this.showMessage('Atenção! Email de usuário é obrigatorio!!!');  
+    }else
      {
         this.postsService.postUser(this.user).subscribe(users => {
             this.loadAll();          
@@ -155,10 +159,11 @@ loadAll(){
 
  showMessage(msg:String) {
     this.state = this.state === 'active' ? 'inactive' : 'active';
-    this.msg = msg;
-    setTimeout(100,()=>{
-      this.state ='inactive';
-    });
+    this.msg = msg;    
+ }
+
+ closeState(){
+  this.state ='inactive';
  }
 
 
