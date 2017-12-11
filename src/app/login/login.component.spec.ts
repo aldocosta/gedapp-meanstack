@@ -71,13 +71,13 @@ describe('LoginComponent', () => {
       //const el = fixture.debugElement.nativeElement;
       //console.log(component);
 
-    const fixture = TestBed.createComponent(LoginComponent);
+//    const fixture = TestBed.createComponent(LoginComponent);
     //const el = fixture.debugElement.nativeElement;
     //console.log(el);
     //let password = el.querySelector('password');
     //let state = password!=null || password != undefined;
     // console.log(password);    
-    expect(true).toBeTruthy(true);
+  //  expect(true).toBeTruthy(true);
     //expect(ret).toBe('Ano invalido');
   }));
 

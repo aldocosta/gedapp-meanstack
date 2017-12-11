@@ -24,8 +24,10 @@
                           </td>
                           <td>
                             <label>                              
-                              <input type="checkbox" [attr.name]='item.name' [attr.id]='item.name' 
-                            [(ngModel)]="item.userCheck" (change)='departamentoCheck(item)'>
+                              <!-- <input type="checkbox" [attr.name]='item.name' [attr.id]='item.name' 
+                            [(ngModel)]="item.userCheck" (change)='departamentoCheck(item)'> -->
+                              <input type="radio" name='departamentos' [attr.id]='item.name' 
+                              (change)='usuarioCheck(item)'>
                             </label>    
                           </td>
                         </tr>
@@ -60,9 +62,11 @@
                           </td>
                           <td>
                             <label>                              
-                              <input type="radio" name='departamentos' [attr.id]='item.name' 
-                              (change)='setarDepartamento(item)'
-                              >
+                                <input type="checkbox" [attr.name]='item.name' [attr.id]='item.name'                                  
+                                 (change)='setarDepartamento(item)'>
+
+                              <!-- <input type="radio" name='departamentos' [attr.id]='item.name' 
+                              (change)='setarDepartamento(item)'> -->
                             </label>    
                           </td>
                         </tr>

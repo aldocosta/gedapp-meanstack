@@ -29,7 +29,7 @@ passport.use(new Strategy(
 	});	
 }));
 
-router.use('/user',
+router.use('/users',
 	passport.authenticate('bearer', { session: false }),
 	(req,res,next)=>{	
 	if(req.body.name){		
@@ -128,7 +128,3 @@ User.methods(['put','post','delete']);
 User.register(router,'/users')
 
 module.exports = router;
-
-
-
-

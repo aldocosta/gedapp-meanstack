@@ -23,6 +23,7 @@ export class GedDeptoUserComponent implements OnInit, OnChanges {
   deptoUser : DeptoUsers; // aqui seto a agregação de depto x users
   usuarioDeptoList : any = [];
   usuarioDepartamento : UsuarioDepartamento;
+
   filterKey:String; 
   pages = []; 
   pagesDepto = [];   
@@ -31,8 +32,9 @@ export class GedDeptoUserComponent implements OnInit, OnChanges {
   usersChunks = [];  
   deptoChunks = []; 
   chunkSize:number = 5;   
-  listaDeptoCheck : any[] = [];
-  usuarioDepartamentoLista = [];
+
+//  listaDeptoCheck : any[] = [];
+  //usuarioDepartamentoLista = [];
 
   constructor(private _deptoService: GedDeptoService,
               private _lus: LogarUsuarioService,
@@ -143,33 +145,19 @@ export class GedDeptoUserComponent implements OnInit, OnChanges {
     return false;      
   }
 
-  private departamentoCheck(item){
-    this.listaDeptoCheck = [];
-    this.usersChunks.forEach((e)=>{      
-      e.forEach((ei)=>{
-        if(ei.userCheck){
-            this.listaDeptoCheck.push(item);
-            console.log(ei);
-          }        
-      });
-    });
-  }
-
-  private gravarRelacao(){
-    this.usersChunks.forEach((e)=>{      
-      e.forEach((ei)=>{
-        if(ei.userCheck){          
-          this.deptoUser.userIds.push(ei._id);
-        }
-      });
-    });
-    this.dus.salvarDepartamentoLista(this.deptoUser).subscribe(ret=>{
-      this.loadDeptoUsers();
-    });
+  private usuarioCheck(item){        
+    this.deptoUser.userIds = item._id;
   }
 
   private setarDepartamento(departamento){
-    this.deptoUser.deptoId=departamento._id;
-    console.log(this.deptoUser.deptoId);
+    this.deptoUser.deptoId.push(departamento._id);    
+  }
+
+  private gravarRelacao(){
+    
+    this.deptoUser.deptoId.forEach((e,i)=>{
+      console.log(e);
+      console.log(i);
+    });
   }
 }

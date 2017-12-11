@@ -1,4 +1,4 @@
-export class DeptoUsers {	
-	deptoId:string;
-	userIds = [];
+export class DeptoUsers {		
+	deptoId:string[] = [];
+	userIds :string;
 }

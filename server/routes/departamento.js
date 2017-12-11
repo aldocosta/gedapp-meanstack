@@ -46,8 +46,11 @@ router.get('/depto_owners',
                     name:1,descricao:1,criacao:1,result:1,"owner":{name:1,email:1}
                 }
             }
-        ]).then((data)=>{
+        ])//.cursor({ batchSize: 2500, async: true })
+        .then((data)=>{
             res.json(data);
+        }).catch((err)=>{
+            res.json(err);
         });
 });
 

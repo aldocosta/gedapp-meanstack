@@ -52,8 +52,8 @@ export class PostsService implements OnInit {
   postUser(user){
     const body  ={
       name:user.name,
-      email:user.email,
-      password:user.password,
+      email:user.email, 
+      password:user.password|| 123456,
       roles:user.roles
     }
     
