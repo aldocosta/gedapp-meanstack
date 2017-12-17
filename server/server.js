@@ -4,8 +4,8 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-// mongoose.connect('mongodb://127.0.0.1:27017/ged_app');
-mongoose.connect('mongodb://localhost:27017/ged_app');
+ mongoose.connect('mongodb://127.0.0.1:27017/ged_app');
+//mongoose.connect('mongodb://localhost :27017/ged_app');
 
 // Get our API routes
 const api = require('../server/routes/api');

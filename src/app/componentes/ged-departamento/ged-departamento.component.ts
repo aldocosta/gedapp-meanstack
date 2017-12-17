@@ -10,7 +10,6 @@ import { LogarUsuarioService } from '../../services/logar/logar-usuario.service'
 import { GedDepartamento } from '../../Models/ged-departamento';
 import { User } from '../../Models/user';
 
-
 // import 'rxjs/add/operator/catch';
 // import 'rxjs/add/operator/map';
 // import { Observable } from 'rxjs/Rx';

@@ -55,7 +55,7 @@ router.post('/depto_users',
     function(req,res,next){
         let mongoose = require('mongoose');
         var d = new DeptoUsers();
-        d.user = mongoose.Types.ObjectId(req.body.user);
+        d.user = mongoose.Types.ObjectId(req.body.userList);
         d.depto = mongoose.Types.ObjectId(req.body.depto);
 
         d.save().then(function(_d){

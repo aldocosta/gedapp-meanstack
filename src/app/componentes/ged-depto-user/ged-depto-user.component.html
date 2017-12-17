@@ -4,10 +4,16 @@
     </header>
       <div class="row">
         <fieldset>
-          <legend>Atribuição de Departamento a Usuários</legend>    
-            <div class="row">
-                <div class="col-md-6">
-                  
+          <legend>Atribuição de Departamento a Usuários
+              <form class="navbar-form navbar-right">      
+                  <div class="form-group">        
+                    <div (click)='closeMessage()' style='cursor: pointer' [@msgState]="state" class="alert alert-info" role="alert">
+                     {{msg}}</div>
+                  </div>      
+                </form>
+            </legend>              
+            <div class="row">              
+                <div class="col-md-6">                                    
                     <table class="table table-striped table-condensed" >
                       <thead>
                         <tr>
@@ -27,7 +33,7 @@
                               <!-- <input type="checkbox" [attr.name]='item.name' [attr.id]='item.name' 
                             [(ngModel)]="item.userCheck" (change)='departamentoCheck(item)'> -->
                               <input type="radio" name='departamentos' [attr.id]='item.name' 
-                              (change)='usuarioCheck(item)'>
+                              (change)='usuarioCheck(item,$event)'>
                             </label>    
                           </td>
                         </tr>
@@ -63,7 +69,7 @@
                           <td>
                             <label>                              
                                 <input type="checkbox" [attr.name]='item.name' [attr.id]='item.name'                                  
-                                 (change)='setarDepartamento(item)'>
+                                 (change)='setarDepartamento(item,$event)'>
 
                               <!-- <input type="radio" name='departamentos' [attr.id]='item.name' 
                               (change)='setarDepartamento(item)'> -->
