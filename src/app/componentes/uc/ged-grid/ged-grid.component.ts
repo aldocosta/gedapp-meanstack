@@ -22,6 +22,7 @@ export class GedGridComponent implements  OnChanges {
   pages = [];
   page : number;
   productsChunks = [];
+  ps : number ;
 
   constructor(private zone: NgZone) {     
     this.page = this.page || 0;
@@ -29,7 +30,6 @@ export class GedGridComponent implements  OnChanges {
     this.filterVisibility = this.filterVisibility || true;
     this.filterKey = this.filterKey || "name";
   }
-
     
   ngOnChanges(changes : any) {
     this.pages = [];
@@ -44,11 +44,8 @@ export class GedGridComponent implements  OnChanges {
       }
   }
 
-  paginate(i){
-    //this.zone.run(()=>{
-    //this.productsChunks[i-1];      
-    this.page = i-1;
-    //});
+  paginate(i){    
+    this.page = i-1;    
     return false;
   }
 

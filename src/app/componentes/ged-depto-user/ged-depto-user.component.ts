@@ -53,9 +53,6 @@ export class GedDeptoUserComponent implements OnInit, OnChanges {
   chunkSize:number = 5;   
   msg:String;
 
-//  listaDeptoCheck : any[] = [];
-  //usuarioDepartamentoLista = [];
-
   constructor(private _deptoService: GedDeptoService,
               private _lus: LogarUsuarioService,
               private zone: NgZone,
@@ -70,7 +67,6 @@ export class GedDeptoUserComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-
   }
 
   private loadAll(){
@@ -117,6 +113,7 @@ export class GedDeptoUserComponent implements OnInit, OnChanges {
   }
 
   private loadDeptos(){
+    
     this._deptoService.retornardepartamentos().subscribe(ret =>{      
         let obj : any;
         let c = 1;
@@ -172,14 +169,14 @@ export class GedDeptoUserComponent implements OnInit, OnChanges {
 
   private setarDepartamento(departamento,e){
     if(e.target.checked){
-      this.deptoUser.deptoId.push(departamento._id);    
+      this.deptoUser.deptoId.push(departamento._id);          
       console.log(this.deptoUser.deptoId);
     }else{
       let idx = this.deptoUser.deptoId.indexOf(departamento._id);
       this.deptoUser.deptoId.splice(idx,1);
       console.log(this.deptoUser.deptoId);
     }
-    
+    departamento.userCheck = e.target.checked;
   }
 
   public openMessage(msg){
@@ -196,10 +193,9 @@ export class GedDeptoUserComponent implements OnInit, OnChanges {
     this.deptoUser.deptoId.forEach((e,i)=>{
       this.usuarioDepartamento = new UsuarioDepartamento();
       this.usuarioDepartamento.user = this.deptoUser.userIds;
-      this.usuarioDepartamento.depto = e;
-      
+      this.usuarioDepartamento.depto = e;      
       let ul = this._lus.pegarUsuarioLogadoViaLocalStorage();
-      this.usuarioDepartamento.userName = ul.id;
+      this.usuarioDepartamento.userName = ul.user.id;
       this.dus.salvarDepartamento(this.usuarioDepartamento).subscribe(ret=>{
         this.loadDeptoUsers();    
         this.openMessage('Departamentos atrelado com sucesso');

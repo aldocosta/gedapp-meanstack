@@ -48,21 +48,49 @@ router.get('/depto_users',
         });
 });
 
-
+router.get('/depto_users_find',(req,res,next)=>{
+	let mongoose = require('mongoose');
+	var d = new DeptoUsers();
+	let ret = DeptoUsers.find({user: mongoose.Types.ObjectId("5a2d657ebbab1825f6015e54")});
+	ret.then((data)=>{
+		data.forEach((v,i)=>{
+			console.log(v.depto);
+		});
+		res.json(data);
+	});
+	
+});
 
 router.post('/depto_users',
     //passport.authenticate('bearer', { session: false }),
     function(req,res,next){
         let mongoose = require('mongoose');
-        var d = new DeptoUsers();
+		var d = new DeptoUsers();
         d.user = mongoose.Types.ObjectId(req.body.userList);
-        d.depto = mongoose.Types.ObjectId(req.body.depto);
+		d.depto = mongoose.Types.ObjectId(req.body.depto);
+		
+		let deptos = [];
 
-        d.save().then(function(_d){
-            res.json(_d);        
-        }).catch((err)=>{
-            res.json(err);        
-    });
+		let ret = DeptoUsers.find({
+			user: mongoose.Types.ObjectId(d.user),
+			depto:mongoose.Types.ObjectId(d.depto)});
+
+		ret.then((data)=>{
+			data.forEach((v,i)=>{
+				deptos.push(v.depto);
+			});					
+		}).then(function(){	
+			if(deptos.length==0){
+				d.save().then(function(_d){
+					res.json(_d);        
+				}).catch((err)=>{
+					res.json(err);        
+				});
+			}
+			else{
+				res.json("");
+			}
+		});
 
 });
 

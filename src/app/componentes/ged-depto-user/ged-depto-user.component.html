@@ -68,9 +68,8 @@
                           </td>
                           <td>
                             <label>                              
-                                <input type="checkbox" [attr.name]='item.name' [attr.id]='item.name'                                  
-                                 (change)='setarDepartamento(item,$event)'>
-
+                                <input type="checkbox" [attr.name]='item.name' [attr.id]='item.name' 
+                                [checked]='item.userCheck' (change)='setarDepartamento(item,$event)'>
                               <!-- <input type="radio" name='departamentos' [attr.id]='item.name' 
                               (change)='setarDepartamento(item)'> -->
                             </label>    
