@@ -40,7 +40,9 @@ router.get('/depto_users',
 			        ,{
 			            $project:
 			                {
-			                    name:1,descricao:1,criacao:1,result:1,"depto":{name:1},"user":{name:1}
+								name:1,descricao:1,criacao:1,result:1
+								,"depto":{name:1,_id:1}
+								,"user":{name:1}
 			                }
 			            }
 			]).then((data)=>{

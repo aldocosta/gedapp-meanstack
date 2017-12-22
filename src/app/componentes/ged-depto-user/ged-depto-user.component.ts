@@ -38,11 +38,13 @@ import { Observable } from 'rxjs/Observable';
 export class GedDeptoUserComponent implements OnInit, OnChanges {
   geddpto: any[];
   users = [];
-  deptoUser : DeptoUsers; // aqui seto a agregação de depto x users
+  deptoUser : DeptoUsers; // aqui seto a agregação de depto x users para salvar
   usuarioDeptoList : any = [];
   usuarioDepartamento : UsuarioDepartamento;
   state:String = 'inactive';
+  deptoUserComposition : any = {};//objeto do modal
 
+  /*variaveis da grid*/
   filterKey:String; 
   pages = []; 
   pagesDepto = [];   
@@ -72,7 +74,7 @@ export class GedDeptoUserComponent implements OnInit, OnChanges {
   private loadAll(){
     this.usuarioDepartamento = new UsuarioDepartamento();
     this.deptoUser = new DeptoUsers();    
-
+    
     this.loadDeptos();
     this.loadUsers();
     this.loadDeptoUsers();    
@@ -85,7 +87,8 @@ export class GedDeptoUserComponent implements OnInit, OnChanges {
         let u = new UsuarioDepartamento();
         u._id = el._id;
         u.criacao  = el.criacao;
-        u.depto  = el.depto[0].name;
+        u.deptoName  = el.depto[0].name;
+        u.depto  = el.depto[0]._id;
         u.user  = el.user[0].name;        
         arr.push(u);
       });      
@@ -133,6 +136,30 @@ export class GedDeptoUserComponent implements OnInit, OnChanges {
         this.geddpto = this.deptoChunks[this.pageDepto];
       });
   }
+
+
+  private loadDeptosAsync(){
+    return this._deptoService.retornardepartamentos();
+    // this._deptoService.retornardepartamentos().subscribe(ret =>{      
+    //     let obj : any;
+    //     let c = 1;
+    //     this.pageDepto = 0;        
+    //     ret.forEach(element => {
+    //       element.owner = element.owner[0].name;
+    //       element.ownerId = element.owner[0].id;        
+    //       element.deptoCheck = false;
+    //       element.userCheck = false;
+    //     });
+
+    //     for(let i=0; i< ret.length; i+= this.chunkSize){
+    //       this.deptoChunks.push(ret.slice(i,i+ this.chunkSize));
+    //       this.pagesDepto.push(c);
+    //       c++;
+    //     }        
+    //     this.geddpto = this.deptoChunks[this.pageDepto];
+    //   });
+  }
+
 
   private selecionarDepto(obj){    
     this.usuarioDepartamento.depto = obj._id;    
@@ -204,5 +231,23 @@ export class GedDeptoUserComponent implements OnInit, OnChanges {
         });
       });
     });
+  }
+
+  private selecionarLinha(item){
+    this.deptoUserComposition = item;
+    this.loadDeptosAsync().subscribe(ret=>{
+      let obj : any;
+      let c = 1;
+          
+      ret.forEach(element => {
+        element.owner = element.owner[0].name;
+        element.ownerId = element.owner[0].id;        
+        element.deptoCheck = false;
+        element.userCheck = false;
+      });
+      console.log(item);  
+      this.deptoUserComposition.deptos = ret;
+    });
+    
   }
 }
